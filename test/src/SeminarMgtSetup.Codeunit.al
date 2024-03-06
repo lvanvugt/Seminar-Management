@@ -5,40 +5,23 @@ codeunit 123456775 "Seminar Mgt. Setup ASD"
     Subtype = Test;
     TestPermissions = Disabled;
 
-    var
-        Assert: Codeunit Assert;
-        SeminarMgtLibraryInitialize: Codeunit "Seminar Mgt. Lib. Init. ASD";
-        SeminarMgtLibrarySetup: Codeunit "Seminar Mgt. Lib. Setup ASD";
-        isInitialized: Boolean;
-        FieldOnTableErr: Label '%1 field on %2 table.';
-
-    local procedure Initialize();
-    begin
-        if isInitialized then
-            exit;
-
-        SeminarMgtLibraryInitialize.Initialize();
-
-        isInitialized := true;
-    end;
-
     [Test]
     [TransactionModel(TransactionModel::AutoRollback)]
     procedure InsertRecordOnOpenPageSeminarSetup();
     var
         SeminarSetup: TestPage "Seminar Setup ASD";
     begin
-        // [SCENARIO 0001] OnOpenPage should create a record in Seminar Setup table
+        // [SCENARIO 0001] Open Seminar Setup page to rigger OnOpenPage
         Initialize();
         RemoveSeminarSetupRecord();
         // [GIVEN] No record exists in Seminar Setup table
         CheckNoSeminarSetupRecordExists();
 
-        // [WHEN] Opening Seminar Setup Page
+        // [WHEN] Openi Seminar Setup Page
         SeminarSetup.OpenView();
         SeminarSetup.Close();
 
-        // [THEN] A record should exist in Seminar Setup table
+        // [THEN] Record exists in Seminar Setup table
         CheckSeminarSetupRecordExists();
 
         // Teardown
@@ -49,14 +32,14 @@ codeunit 123456775 "Seminar Mgt. Setup ASD"
     [Test]
     procedure CreateSeminarUsingNoSeries();
     begin
-        // [SCENARIO 0002] Create a new seminar record using no. series
-        // [GIVEN] No. Series have been setup for seminar
+        // [SCENARIO 0002] Create seminar record using no. series
+        // [GIVEN] No. Series for seminar
         Initialize();
 
-        // [WHEN] Creating a new seminar
+        // [WHEN] Creating seminar
         CreateSeminar(false);
 
-        // [THEN] A record exists in Seminar table with No. equals to last Last No. Used on No. Series
+        // [THEN] Record exists in Seminar table with No. equals to last Last No. Used on No. Series
         VerifySeminarExistWithNoBasedOnNoSeries();
     end;
 
@@ -65,17 +48,42 @@ codeunit 123456775 "Seminar Mgt. Setup ASD"
     var
         SeminarNo: Code[20];
     begin
-        // [SCENARIO 0008] When deleting a seminar with comments lines these lines should also be deleted
+        // [SCENARIO 0008] Delete seminar with comments lines
         Initialize();
-        // [GIVEN] A seminar with comment lines
+        // [GIVEN] Seminar with comment lines
         SeminarNo := CreateSeminar(true);
         VerifyCommentLinesExistForSeminar(SeminarNo);
 
-        // [WHEN] Deleting the seminar
+        // [WHEN] Delete the seminar
         DeleteSeminar(SeminarNo);
 
-        // [THEN] Verify that linked comment lines have been deleted
+        // [THEN] Verify linked comment lines have been deleted
         VerifyCommentLinesDoNotExistForSeminar(SeminarNo);
+    end;
+
+    var
+        Assert: Codeunit Assert;
+        SeminarMgtLibraryInitialize: Codeunit "Seminar Mgt. Lib. Init. ASD";
+        SeminarMgtLibrarySetup: Codeunit "Seminar Mgt. Lib. Setup ASD";
+        isInitialized: Boolean;
+        FieldOnTableErr: Label '%1 field on %2 table.';
+
+    local procedure Initialize();
+    var
+        LibraryTestInitialize: Codeunit "Library - Test Initialize";
+    begin
+        LibraryTestInitialize.OnTestInitialize(Codeunit::"Seminar Mgt. Setup ASD");
+
+        if isInitialized then
+            exit;
+
+        LibraryTestInitialize.OnBeforeTestSuiteInitialize(Codeunit::"Seminar Mgt. Setup ASD");
+
+        SeminarMgtLibraryInitialize.Initialize();
+
+        isInitialized := true;
+
+        LibraryTestInitialize.OnAfterTestSuiteInitialize(Codeunit::"Seminar Mgt. Setup ASD");
     end;
 
     local procedure CreateSeminar(DoCreateComments: Boolean): Code[20];
