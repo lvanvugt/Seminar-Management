@@ -26,7 +26,7 @@ codeunit 123456720 "Seminar-Post ASD"
         DimensionsCombinationOnLineBlockedErr: Label 'The combination of dimensions used in %1,  line no. %2 is blocked. %3';
         DimensionsUsedAreInvalidErr: Label 'The dimensions used in %1 are invalid. %2';
         DimensionsUsedOnLineAreInvalidErr: Label 'The dimensions used in %1, line no. %2 are invalid. %3';
-       // ASD8.03<
+    // ASD8.03<
 
     trigger OnRun()
     begin
@@ -45,11 +45,11 @@ codeunit 123456720 "Seminar-Post ASD"
             );
         CopyCharges(SeminarRegistrationHeader."No.", PstdSeminarRegistrationHeader."No.");
 
-        PostLines();
+        PostLines(); // TODO: testable unit
 
         PostCharges(SeminarRegistrationHeader."No.");
 
-        PostSeminarJnlLine("Seminar Journal Charge Type ASD"::Instructor);
+        PostSeminarJnlLine("Seminar Journal Charge Type ASD"::Instructor); // TODO: testable unit
 
         PostSeminarJnlLine("Seminar Journal Charge Type ASD"::Room);
 
@@ -65,21 +65,21 @@ codeunit 123456720 "Seminar-Post ASD"
         SourceCodeSetup: Record "Source Code Setup";
     begin
         // Test Near
-        CheckMandatoryHeaderFields(SeminarRegistrationHeader2);
+        CheckMandatoryHeaderFields(SeminarRegistrationHeader2); // TODO: testable unit
 
         InitProgressWindow(SeminarRegistrationHeader2."No.");
 
         // Test Far
-        SeminarRegistrationLine2.Reset();
+        SeminarRegistrationLine2.Reset(); // TODO: testable unit
         SeminarRegistrationLine2.SetRange("Document No.", SeminarRegistrationHeader2."No.");
         if SeminarRegistrationLine2.IsEmpty() then
             Error(NothingToPostErr);
 
         // ASD8.03>
-        CheckDim();
+        CheckDim(); // TODO: testable unit
         // ASD8.03<
 
-        if UpdatePostingNos(SeminarRegistrationHeader2) then begin
+        if UpdatePostingNos(SeminarRegistrationHeader2) then begin // TODO: testable unit
             SeminarRegistrationHeader2.Modify();
             Commit();
         end;
@@ -90,6 +90,7 @@ codeunit 123456720 "Seminar-Post ASD"
         InsertPostedSeminarRegHeader(SeminarRegistrationHeader2);
     end;
 
+    // TODO: testable unit
     local procedure CheckMandatoryHeaderFields(SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
     begin
         SeminarRegistrationHeader2.TestField(Status, SeminarRegistrationHeader2.Status::Closed);
@@ -164,6 +165,7 @@ codeunit 123456720 "Seminar-Post ASD"
             until SeminarCharge.Next() = 0;
     end;
 
+    // TODO: testable unit
     local procedure PostLines()
     var
         LineCount: Integer;
@@ -222,7 +224,7 @@ codeunit 123456720 "Seminar-Post ASD"
                     SetParticipantDataOnSeminarJnlLine(SeminarJnlLine, SeminarRegistrationLine);
                     SeminarJnlLine."Dimension Set ID" := SeminarRegistrationLine."Dimension Set ID";
                 end;
-                // ASD8.03<
+            // ASD8.03<
             ChargeType::Charge:
                 SetChargeDataOnSeminarJnlLine(SeminarJnlLine, SeminarCharge);
         end;

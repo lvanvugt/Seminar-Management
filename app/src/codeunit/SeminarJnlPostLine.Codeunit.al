@@ -15,6 +15,7 @@ codeunit 123456732 "Seminar Jnl.-Post Line ASD"
         RunWithCheck(Rec);
     end;
 
+    // TODO: testable unit
     procedure RunWithCheck(var SeminarJnlLine2: Record "Seminar Journal Line ASD")
     begin
         SeminarJnlLine.Copy(SeminarJnlLine2);

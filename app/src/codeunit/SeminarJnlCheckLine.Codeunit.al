@@ -9,13 +9,14 @@ codeunit 123456731 "Seminar Jnl.-Check Line ASD"
         // ASD8.03<
         DimensionsCombinationBlockedErr: Label 'The combination of dimensions used in %1 %2, %3, %4 is blocked. %5';
         DimensionUsedCausedErrorErr: Label 'A dimension used in %1 %2, %3, %4 has caused an error. %5';
-        // ASD8.03>
+    // ASD8.03>
 
     trigger OnRun()
     begin
         RunCheck(Rec)
     end;
 
+    // TODO: testable unit
     procedure RunCheck(var SeminarJnlLine: Record "Seminar Journal Line ASD")
     // ASD8.03<
     var
