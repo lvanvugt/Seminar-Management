@@ -1,0 +1,43 @@
+{
+  "id": "63a3442f-b649-49b0-9838-9e94c9579f2a",
+  "name": "Seminar Management Test",
+  "publisher": "AL Solution Developer Course",
+  "version": "1.0.0.0",
+  "brief": "Seminar Management Test solution installs unit tests for the Seminar Management solution.",
+  "description": "The core business of CRONUS International Ltd. is organizing and delivering seminars. The Seminar Management solution enables users to schedule seminars and enroll participants in the seminars. Very frequently, companies send several employees to participate in seminars, and those companies pay for their employees’ participation. Sometimes, participants are not related to a specific company, and they pay for seminar participation themselves.",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "logo/Logo.png",
+  "dependencies": [
+    {
+      "id": "b3d5e2c4-29fe-4aff-9128-0aaa6238bcc2",
+      "name": "Seminar Management",
+      "publisher": "AL Solution Developer Course",
+      "version": "1.0.0.0"
+    },
+    {
+      "id":  "5d86850b-0d76-4eca-bd7b-951ad998e997",
+      "name":  "Tests-TestLibraries",
+      "publisher":  "Microsoft",
+      "version":  "18.0.0.0"
+    }
+  ],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "18.0.0.0",
+  "idRanges": [
+    {
+      "from": 123456700,
+      "to": 123456799
+    }
+  ],
+  "target": "OnPrem",
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": false,
+    "includeSourceInSymbolFile": false
+  },
+  "runtime": "12.0"
+}
