@@ -1,11 +1,11 @@
-#if spaghetti
+#if unstructured_spaghetti
 codeunit 123456720 "Seminar-Post ASD"
 {
     // ASD8.03 - 2018-08-15 D.E. Veloper - Chapter 8: Lab 3 - Dimensions functionality
 
     Permissions = tabledata "Seminar Registration Line ASD" = imd,
-                  tabledata "Posted Sem. Reg. Header ASD" = im,
-                  tabledata "Posted Sem. Reg. Line ASD" = im;
+                    tabledata "Posted Sem. Reg. Header ASD" = im,
+                    tabledata "Posted Sem. Reg. Line ASD" = im;
     TableNo = "Sem. Registration Header ASD";
 
     var
@@ -64,8 +64,8 @@ codeunit 123456720 "Seminar-Post ASD"
             Error(NothingToPostErr);
 
         Window.Open(
-          '#1#################################\\' +
-          PostingLinesMsg);
+            '#1#################################\\' +
+            PostingLinesMsg);
         // Do It
         Window.Update(1, StrSubstNo('%1 %2', RegistrationMsg, SeminarRegistrationHeader."No."));
 
@@ -92,9 +92,9 @@ codeunit 123456720 "Seminar-Post ASD"
         Window.Update(1, StrSubstNo(RegistrationToPostedRegMsg, SeminarRegistrationHeader."No.", PstdSeminarRegistrationHeader."No."));
 
         CopyCommentLines(
-          "Seminar Document Type ASD"::"Seminar Registration",
-          "Seminar Document Type ASD"::"Posted Seminar Registration",
-          SeminarRegistrationHeader."No.", PstdSeminarRegistrationHeader."No.");
+            "Seminar Document Type ASD"::"Seminar Registration",
+            "Seminar Document Type ASD"::"Posted Seminar Registration",
+            SeminarRegistrationHeader."No.", PstdSeminarRegistrationHeader."No.");
         CopyCharges(SeminarRegistrationHeader."No.", PstdSeminarRegistrationHeader."No.");
 
         // Lines
@@ -346,17 +346,17 @@ codeunit 123456720 "Seminar-Post ASD"
         if SeminarRegistrationLine."Line No." = 0 then
             if not DimensionManagement.CheckDimIDComb(SeminarRegistrationHeader."Dimension Set ID") then
                 Error(
-                  DimensionsCombinationBlockedErr,
-                  SeminarRegistrationHeader."No.",
-                  DimensionManagement.GetDimCombErr());
+                    DimensionsCombinationBlockedErr,
+                    SeminarRegistrationHeader."No.",
+                    DimensionManagement.GetDimCombErr());
 
         if SeminarRegistrationLine."Line No." <> 0 then
             if not DimensionManagement.CheckDimIDComb(SeminarRegistrationLine."Dimension Set ID") then
                 Error(
-                  DimensionsCombinationOnLineBlockedErr,
-                  SeminarRegistrationHeader."No.",
-                  SeminarRegistrationLine."Line No.",
-                  DimensionManagement.GetDimCombErr());
+                    DimensionsCombinationOnLineBlockedErr,
+                    SeminarRegistrationHeader."No.",
+                    SeminarRegistrationLine."Line No.",
+                    DimensionManagement.GetDimCombErr());
     end;
 
     local procedure CheckDimValuePosting(var SeminarRegLine2: Record "Seminar Registration Line ASD");
@@ -373,27 +373,27 @@ codeunit 123456720 "Seminar-Post ASD"
             TableIDArr[3] := Database::Resource;
             NumberArr[3] := SeminarRegistrationHeader."Room Resource No.";
             if not DimensionManagement.CheckDimValuePosting(
-              TableIDArr,
-              NumberArr,
-              SeminarRegistrationHeader."Dimension Set ID")
+                TableIDArr,
+                NumberArr,
+                SeminarRegistrationHeader."Dimension Set ID")
             then
                 Error(
-                  DimensionsUsedAreInvalidErr,
-                  SeminarRegistrationHeader."No.",
-                  DimensionManagement.GetDimValuePostingErr());
+                    DimensionsUsedAreInvalidErr,
+                    SeminarRegistrationHeader."No.",
+                    DimensionManagement.GetDimValuePostingErr());
         end else begin
             TableIDArr[1] := Database::Customer;
             NumberArr[1] := SeminarRegLine2."Bill-to Customer No.";
             if not DimensionManagement.CheckDimValuePosting(
-              TableIDArr,
-              NumberArr,
-              SeminarRegLine2."Dimension Set ID")
+                TableIDArr,
+                NumberArr,
+                SeminarRegLine2."Dimension Set ID")
             then
                 Error(
-                  DimensionsUsedOnLineAreInvalidErr,
-                  SeminarRegistrationHeader."No.",
-                  SeminarRegLine2."Line No.",
-                  DimensionManagement.GetDimValuePostingErr());
+                    DimensionsUsedOnLineAreInvalidErr,
+                    SeminarRegistrationHeader."No.",
+                    SeminarRegLine2."Line No.",
+                    DimensionManagement.GetDimValuePostingErr());
         end;
     end;
     // ASD8.03<
