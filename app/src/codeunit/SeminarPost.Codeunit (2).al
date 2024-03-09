@@ -65,7 +65,7 @@ codeunit 123456720 "Seminar-Post ASD"
         SourceCodeSetup: Record "Source Code Setup";
     begin
         // Test Near
-        CheckMandatoryHeaderFields(SeminarRegistrationHeader2); // TODO: testable unit
+        CheckMandatoryHeaderFields(SeminarRegistrationHeader2);
 
         InitProgressWindow(SeminarRegistrationHeader2."No.");
 
@@ -90,8 +90,7 @@ codeunit 123456720 "Seminar-Post ASD"
         InsertPostedSeminarRegHeader(SeminarRegistrationHeader2);
     end;
 
-    // TODO: testable unit
-    local procedure CheckMandatoryHeaderFields(SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
+    procedure CheckMandatoryHeaderFields(SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
     begin
         SeminarRegistrationHeader2.TestField(Status, SeminarRegistrationHeader2.Status::Closed);
         SeminarRegistrationHeader2.TestField("Posting Date");
