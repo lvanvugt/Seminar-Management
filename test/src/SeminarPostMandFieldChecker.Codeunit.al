@@ -16,7 +16,7 @@ codeunit 123456779 "SeminarPostMandFieldCheckerASD"
         asserterror seminarPostASD.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
         // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Posting Date must not be blank');
+        Assert.ExpectedError('Status must be equal to ''Closed''');
     end;
 
     [Test]
@@ -32,7 +32,7 @@ codeunit 123456779 "SeminarPostMandFieldCheckerASD"
         asserterror seminarPostASD.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
         // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Posting Date must not be blank');
+        Assert.ExpectedError('Posting Date must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
     end;
 
     [Test]
@@ -48,7 +48,7 @@ codeunit 123456779 "SeminarPostMandFieldCheckerASD"
         asserterror seminarPostASD.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
         // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Posting Date must not be blank');
+        Assert.ExpectedError('Document Date must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
     end;
 
     [Test]
@@ -64,7 +64,7 @@ codeunit 123456779 "SeminarPostMandFieldCheckerASD"
         asserterror seminarPostASD.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
         // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Posting Date must not be blank');
+        Assert.ExpectedError('Seminar No. must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
     end;
 
     [Test]
@@ -80,7 +80,7 @@ codeunit 123456779 "SeminarPostMandFieldCheckerASD"
         asserterror seminarPostASD.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
         // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Posting Date must not be blank');
+        Assert.ExpectedError('Duration must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
     end;
 
     [Test]
@@ -96,7 +96,7 @@ codeunit 123456779 "SeminarPostMandFieldCheckerASD"
         asserterror seminarPostASD.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
         // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Posting Date must not be blank');
+        Assert.ExpectedError('Instructor Resource No. must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
     end;
 
     [Test]
@@ -112,7 +112,7 @@ codeunit 123456779 "SeminarPostMandFieldCheckerASD"
         asserterror seminarPostASD.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
         // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Posting Date must not be blank');
+        Assert.ExpectedError('Room Resource No. must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
     end;
 
     [Test]
@@ -126,9 +126,7 @@ codeunit 123456779 "SeminarPostMandFieldCheckerASD"
 
         // [WHEN] Testing valid Seminar Registration
         seminarPostASD.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
-
         // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Posting Date must not be blank');
     end;
 
     local procedure CreateSeminarRegistrationHeader(FieldNo: Integer) SeminarRegistrationHeader: Record "Sem. Registration Header ASD"
@@ -151,5 +149,4 @@ codeunit 123456779 "SeminarPostMandFieldCheckerASD"
 
     var
         Assert: Codeunit Assert;
-
 }
