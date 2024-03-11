@@ -1,3 +1,4 @@
+#if spaghetti
 codeunit 123456732 "Seminar Jnl.-Post Line ASD"
 {
     Permissions = tabledata "Seminar Ledger Entry ASD" = imd,
@@ -74,3 +75,4 @@ codeunit 123456732 "Seminar Jnl.-Post Line ASD"
         NextEntryNo := NextEntryNo + 1;
     end;
 }
+#endif

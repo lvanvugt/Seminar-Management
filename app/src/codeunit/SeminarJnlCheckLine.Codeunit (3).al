@@ -1,3 +1,4 @@
+#if componentized_structured_spaghetti
 codeunit 123456731 "Seminar Jnl.-Check Line ASD"
 {
     // ASD8.03 - 2018-08-15 D.E. Veloper - Chapter 8: Lab 3 - Dimensions functionality
@@ -16,6 +17,7 @@ codeunit 123456731 "Seminar Jnl.-Check Line ASD"
         RunCheck(Rec)
     end;
 
+    // TODO: testable unit
     procedure RunCheck(var SeminarJnlLine: Record "Seminar Journal Line ASD")
     // ASD8.03<
     var
@@ -51,11 +53,11 @@ codeunit 123456731 "Seminar Jnl.-Check Line ASD"
         // ASD8.03<
         if not DimensionManagement.CheckDimIDComb(SeminarJnlLine."Dimension Set ID") then
             Error(
-              DimensionsCombinationBlockedErr,
-              SeminarJnlLine.TableCaption, SeminarJnlLine."Journal Template Name",
-              SeminarJnlLine."Journal Batch Name",
-              SeminarJnlLine."Line No.",
-              DimensionManagement.GetDimCombErr());
+                DimensionsCombinationBlockedErr,
+                SeminarJnlLine.TableCaption, SeminarJnlLine."Journal Template Name",
+                SeminarJnlLine."Journal Batch Name",
+                SeminarJnlLine."Line No.",
+                DimensionManagement.GetDimCombErr());
 
         TableID[1] := Database::"Seminar ASD";
         No[1] := SeminarJnlLine."Seminar No.";
@@ -86,3 +88,4 @@ codeunit 123456731 "Seminar Jnl.-Check Line ASD"
         UserSetupManagement.CheckAllowedPostingDate(SeminarJnlLine."Posting Date");
     end;
 }
+#endif

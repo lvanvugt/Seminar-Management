@@ -34,5 +34,5 @@
     "includeSourceInSymbolFile": false
   },
   "runtime": "12.0",
-  "preprocessorSymbols": ["unstructured_spaghetti"]
+  "preprocessorSymbols": ["componentized_structured_spaghetti"]
 }
