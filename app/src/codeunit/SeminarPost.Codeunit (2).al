@@ -17,7 +17,6 @@ codeunit 123456720 "Seminar-Post ASD"
         SeminarJnlPostLine: Codeunit "Seminar Jnl.-Post Line ASD";
         Window: Dialog;
         SourceCode: Code[10];
-        NothingToPostErr: Label 'There is nothing to post.';
         PostingLinesMsg: Label 'Posting lines              #2######\';
         RegistrationMsg: Label 'Registration';
         RegistrationToPostedRegMsg: Label 'Registration %1  -> Posted Reg. %2';
@@ -45,11 +44,11 @@ codeunit 123456720 "Seminar-Post ASD"
             );
         CopyCharges(SeminarRegistrationHeader."No.", PstdSeminarRegistrationHeader."No.");
 
-        PostLines(); // TODO: testable unit
+        PostLines();
 
         PostCharges(SeminarRegistrationHeader."No.");
 
-        PostSeminarJnlLine("Seminar Journal Charge Type ASD"::Instructor); // TODO: testable unit
+        PostSeminarJnlLine("Seminar Journal Charge Type ASD"::Instructor);
 
         PostSeminarJnlLine("Seminar Journal Charge Type ASD"::Room);
 
@@ -61,7 +60,6 @@ codeunit 123456720 "Seminar-Post ASD"
 
     local procedure CheckAndUpdate(var SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
     var
-        SeminarRegistrationLine2: Record "Seminar Registration Line ASD";
         SourceCodeSetup: Record "Source Code Setup";
     begin
         // Test Near
@@ -70,10 +68,7 @@ codeunit 123456720 "Seminar-Post ASD"
         InitProgressWindow(SeminarRegistrationHeader2."No.");
 
         // Test Far
-        SeminarRegistrationLine2.Reset(); // TODO: testable unit
-        SeminarRegistrationLine2.SetRange("Document No.", SeminarRegistrationHeader2."No.");
-        if SeminarRegistrationLine2.IsEmpty() then
-            Error(NothingToPostErr);
+        VerifySeminarLinesExists(SeminarRegistrationHeader2);
 
         // ASD8.03>
         CheckDim(); // TODO: testable unit
@@ -164,7 +159,6 @@ codeunit 123456720 "Seminar-Post ASD"
             until SeminarCharge.Next() = 0;
     end;
 
-    // TODO: testable unit
     local procedure PostLines()
     var
         LineCount: Integer;
@@ -178,8 +172,7 @@ codeunit 123456720 "Seminar-Post ASD"
                 LineCount := LineCount + 1;
                 Window.Update(2, LineCount);
 
-                SeminarRegistrationLine.TestField("Bill-to Customer No.");
-                SeminarRegistrationLine.TestField("Participant Contact No.");
+                VerifySeminarRegLineForPosting(SeminarRegistrationLine);
 
                 if not SeminarRegistrationLine."To Invoice" then begin
                     SeminarRegistrationLine.Price := 0;
@@ -455,6 +448,23 @@ codeunit 123456720 "Seminar-Post ASD"
                     SeminarRegLine2."Line No.",
                     DimensionManagement.GetDimValuePostingErr());
         end;
+    end;
+
+    procedure VerifySeminarRegLineForPosting(SeminarRegistrationLineLocal: Record "Seminar Registration Line ASD")
+
+    begin
+        SeminarRegistrationLineLocal.TestField("Bill-to Customer No.");
+        SeminarRegistrationLineLocal.TestField("Participant Contact No.");
+    end;
+
+    procedure VerifySeminarLinesExists(var SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
+    var
+        SeminarRegistrationLine2: Record "Seminar Registration Line ASD";
+        NothingToPostErr: Label 'There is nothing to post.';
+    begin
+        SeminarRegistrationLine2.SetRange("Document No.", SeminarRegistrationHeader2."No.");
+        if SeminarRegistrationLine2.IsEmpty() then
+            Error(NothingToPostErr);
     end;
     // ASD8.03<
 }

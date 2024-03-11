@@ -1,8 +1,8 @@
-codeunit 123456779 "SeminarPostMandFieldCheckerASD"
+codeunit 123456779 "CNATesterASD"
 {
     Subtype = Test;
     TestPermissions = Disabled;
-
+    #region CheckMandatoryHeaderFields
     [Test]
     procedure CheckMandatoryHeaderFieldsInvalidStatus();
     var
@@ -116,7 +116,7 @@ codeunit 123456779 "SeminarPostMandFieldCheckerASD"
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFields();
+    procedure CheckMandatoryHeaderFieldsValid();
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarPostASD: Codeunit "Seminar-Post ASD";
@@ -146,7 +146,100 @@ codeunit 123456779 "SeminarPostMandFieldCheckerASD"
         if FieldNo <> SeminarRegistrationHeader.FieldNo("Room Resource No.") then
             SeminarRegistrationHeader."Room Resource No." := 'SomeValue';
     end;
+    #endregion CheckMandatoryHeaderFields
 
+    #region VerifySeminarLinesExists
+
+    [Test]
+    procedure VerifySeminarLinesExistsInvalid();
+    var
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+        SeminarPostASD: Codeunit "Seminar-Post ASD";
+        SeminarMgtLibOprtnsASD: Codeunit "Seminar Mgt. Lib. Oprtns. ASD";
+        test: Text;
+    begin
+        // [GIVEN] Seminar registration with no lines
+        SeminarMgtLibOprtnsASD.CreateSeminarRegistration(SeminarRegistrationHeader);
+        // [WHEN] Testing valid Seminar Registration
+        asserterror seminarPostASD.VerifySeminarLinesExists(SeminarRegistrationHeader);
+        // [THEN] Related ledger entries exist
+        test := GetLastErrorText(); //TODO
+        Assert.ExpectedError('Room Resource No. must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
+    end;
+
+    [Test]
+    procedure VerifySeminarLinesExistsValid();
+    var
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+        SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
+        SeminarPostASD: Codeunit "Seminar-Post ASD";
+        SeminarMgtLibOprtnsASD: Codeunit "Seminar Mgt. Lib. Oprtns. ASD";
+    begin
+        // [GIVEN] Seminar registration with lines
+        SeminarMgtLibOprtnsASD.CreateSeminarRegistration(SeminarRegistrationHeader);
+        SeminarMgtLibOprtnsASD.CreateSeminarRegistrationLine(SeminarRegistrationLineASD, SeminarRegistrationHeader."No.");
+        // [WHEN] Testing valid Seminar Registration
+        seminarPostASD.VerifySeminarLinesExists(SeminarRegistrationHeader);
+        // [THEN] Related ledger entries exist
+    end;
+
+    #endregion VerifySeminarLinesExists
+
+    #region VerifySeminarRegLineForPosting
+
+    [Test]
+    procedure VerifySeminarRegLineForPostingBillToCustInv();
+    var
+        SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
+        SeminarPostASD: Codeunit "Seminar-Post ASD";
+    begin
+        // [GIVEN] Seminar registration line invalid Bill-to Customer No.
+        SeminarRegistrationLineASD := CreateSeminarRegistrationLine(SeminarRegistrationLineASD.FieldNo("Bill-to Customer No."));
+
+        // [WHEN] Testing VerifySeminarRegLineForPosting
+        seminarPostASD.VerifySeminarRegLineForPosting(SeminarRegistrationLineASD);
+        // [THEN] Bill-to Customer No. error
+        Assert.ExpectedError('Bill-to Customer No. must have a value in Seminar Registration Line: No.=. It cannot be zero or empty.');
+    end;
+
+    [Test]
+    procedure VerifySeminarRegLineForPostingParticipantInvalid();
+    var
+        SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
+        SeminarPostASD: Codeunit "Seminar-Post ASD";
+    begin
+        // [GIVEN] Seminar registration line invalid participant
+        SeminarRegistrationLineASD := CreateSeminarRegistrationLine(SeminarRegistrationLineASD.FieldNo("Participant Contact No."));
+
+        // [WHEN] Testing valid VerifySeminarRegLineForPosting
+        seminarPostASD.VerifySeminarRegLineForPosting(SeminarRegistrationLineASD);
+        // [THEN] Participant Contact No. error
+        Assert.ExpectedError('Participant Contact No. must have a value in Seminar Registration Line: No.=. It cannot be zero or empty.');
+    end;
+
+    [Test]
+    procedure VerifySeminarRegLineForPostingValid();
+    var
+        SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
+        SeminarPostASD: Codeunit "Seminar-Post ASD";
+    begin
+        // [GIVEN] Seminar registration line valid
+        SeminarRegistrationLineASD := CreateSeminarRegistrationLine(0);
+
+        // [WHEN] Testing valid VerifySeminarRegLineForPosting
+        seminarPostASD.VerifySeminarRegLineForPosting(SeminarRegistrationLineASD);
+        // [THEN] Related ledger entries exist
+    end;
+
+    local procedure CreateSeminarRegistrationLine(FieldNo: Integer) SeminarRegistrationLine: Record "Seminar Registration Line ASD"
+    begin
+        if FieldNo <> SeminarRegistrationLine.FieldNo("Bill-to Customer No.") then
+            SeminarRegistrationLine."Bill-to Customer No." := 'TEST';
+        if FieldNo <> SeminarRegistrationLine.FieldNo("Participant Contact No.") then
+            SeminarRegistrationLine."Participant Contact No." := 'TEST';
+    end;
+
+    #endregion VerifySeminarRegLineForPosting
     var
         Assert: Codeunit Assert;
 }
