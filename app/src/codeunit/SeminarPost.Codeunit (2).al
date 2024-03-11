@@ -45,11 +45,11 @@ codeunit 123456720 "Seminar-Post ASD"
             );
         CopyCharges(SeminarRegistrationHeader."No.", PstdSeminarRegistrationHeader."No.");
 
-        PostLines(); // TODO: testable unit
+        PostLines();
 
         PostCharges(SeminarRegistrationHeader."No.");
 
-        PostSeminarJnlLine("Seminar Journal Charge Type ASD"::Instructor); // TODO: testable unit
+        PostSeminarJnlLine("Seminar Journal Charge Type ASD"::Instructor);
 
         PostSeminarJnlLine("Seminar Journal Charge Type ASD"::Room);
 
@@ -65,21 +65,21 @@ codeunit 123456720 "Seminar-Post ASD"
         SourceCodeSetup: Record "Source Code Setup";
     begin
         // Test Near
-        CheckMandatoryHeaderFields(SeminarRegistrationHeader2); // TODO: testable unit
+        CheckMandatoryHeaderFields(SeminarRegistrationHeader2);
 
         InitProgressWindow(SeminarRegistrationHeader2."No.");
 
         // Test Far
-        SeminarRegistrationLine2.Reset(); // TODO: testable unit
+        SeminarRegistrationLine2.Reset();
         SeminarRegistrationLine2.SetRange("Document No.", SeminarRegistrationHeader2."No.");
         if SeminarRegistrationLine2.IsEmpty() then
             Error(NothingToPostErr);
 
         // ASD8.03>
-        CheckDim(); // TODO: testable unit
+        CheckDim();
         // ASD8.03<
 
-        if UpdatePostingNos(SeminarRegistrationHeader2) then begin // TODO: testable unit
+        if UpdatePostingNos(SeminarRegistrationHeader2) then begin
             SeminarRegistrationHeader2.Modify();
             Commit();
         end;
@@ -90,7 +90,6 @@ codeunit 123456720 "Seminar-Post ASD"
         InsertPostedSeminarRegHeader(SeminarRegistrationHeader2);
     end;
 
-    // TODO: testable unit
     local procedure CheckMandatoryHeaderFields(SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
     begin
         SeminarRegistrationHeader2.TestField(Status, SeminarRegistrationHeader2.Status::Closed);
@@ -165,7 +164,6 @@ codeunit 123456720 "Seminar-Post ASD"
             until SeminarCharge.Next() = 0;
     end;
 
-    // TODO: testable unit
     local procedure PostLines()
     var
         LineCount: Integer;

@@ -16,7 +16,6 @@ codeunit 123456731 "Seminar Jnl.-Check Line ASD"
         RunCheck(Rec)
     end;
 
-    // TODO: testable unit
     procedure RunCheck(var SeminarJnlLine: Record "Seminar Journal Line ASD")
     // ASD8.03<
     var
