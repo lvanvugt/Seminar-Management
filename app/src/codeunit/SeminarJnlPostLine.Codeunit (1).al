@@ -2,7 +2,7 @@
 codeunit 123456732 "Seminar Jnl.-Post Line ASD"
 {
     Permissions = tabledata "Seminar Ledger Entry ASD" = imd,
-                  tabledata "Seminar Register ASD" = imd;
+                    tabledata "Seminar Register ASD" = imd;
     TableNo = "Seminar Journal Line ASD";
 
     var
