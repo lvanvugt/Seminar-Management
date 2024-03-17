@@ -39,6 +39,38 @@ codeunit 123456777 "Seminar Mgt. Posting ASD"
         VerifySeminarLedgerEntriesExist(PostingNo);
     end;
 
+    [Test]
+    procedure PostSeminarRegistration();
+    var
+        InstructorResourceNo: Code[20];
+        PostingNo: Code[20];
+        RoomResourceNo: Code[20];
+        SeminarNo: Code[20];
+        SeminarRegistrationNo: Code[20];
+    begin
+        // [SCENARIO 0400] Post seminar registration
+        Initialize();
+        // [GIVEN] Seminar
+        SeminarNo := CreateSeminar();
+        // [GIVEN] Instructor resource
+        InstructorResourceNo := CreateInstructorResource();
+        // [GIVEN] Room resource
+        RoomResourceNo := CreateRoomResource();
+        // [GIVEN] Closed seminar registration with one participant line
+        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo);
+        PostingNo := SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
+
+        // [WHEN] Post seminar registration
+        PostSeminarRegistration(SeminarRegistrationNo);
+
+        // [THEN] Seminar registration is removed
+        VerifySeminarRegistrationIsRemoved(SeminarRegistrationNo);
+        // [THEN] Posted seminar registration exists
+        VerifyPostedSeminarRegistrationExists(PostingNo);
+        // [THEN] Related ledger entries exist
+        VerifySeminarLedgerEntriesExist(PostingNo);
+    end;
+
     var
         Assert: Codeunit Assert;
         SeminarMgtLibraryInitialize: Codeunit "Seminar Mgt. Lib. Init. ASD";
@@ -46,7 +78,7 @@ codeunit 123456777 "Seminar Mgt. Posting ASD"
         SeminarMgtLibraryOperations: Codeunit "Seminar Mgt. Lib. Oprtns. ASD";
         isInitialized: Boolean;
 
-    local procedure Initialize();
+    local procedure Initialize()
     var
         LibraryTestInitialize: Codeunit "Library - Test Initialize";
     begin
@@ -65,12 +97,12 @@ codeunit 123456777 "Seminar Mgt. Posting ASD"
         LibraryTestInitialize.OnAfterTestSuiteInitialize(Codeunit::"Seminar Mgt. Posting ASD");
     end;
 
-    local procedure CreateSeminar(): Code[20];
+    local procedure CreateSeminar(): Code[20]
     begin
         exit(SeminarMgtLibrarySetup.CreateSeminarNo(false));
     end;
 
-    local procedure CreateInstructorResource(): Code[20];
+    local procedure CreateInstructorResource(): Code[20]
     var
         InstructorResource: Record Resource;
     begin
@@ -78,7 +110,7 @@ codeunit 123456777 "Seminar Mgt. Posting ASD"
         exit(InstructorResource."No.");
     end;
 
-    local procedure CreateRoomResource(): Code[20];
+    local procedure CreateRoomResource(): Code[20]
     var
         RoomResource: Record Resource;
     begin
@@ -86,7 +118,7 @@ codeunit 123456777 "Seminar Mgt. Posting ASD"
         exit(RoomResource."No.");
     end;
 
-    local procedure CreateCompleteSeminarRegistrationWithOneLine(SeminarNo: Code[20]; InstructorNo: Code[20]; RoomNo: Code[20]): Code[20];
+    local procedure CreateCompleteSeminarRegistrationWithOneLine(SeminarNo: Code[20]; InstructorNo: Code[20]; RoomNo: Code[20]): Code[20]
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarRegistrationLine: Record "Seminar Registration Line ASD";
@@ -113,20 +145,28 @@ codeunit 123456777 "Seminar Mgt. Posting ASD"
         SeminarRegistrationList.Post.Invoke();
     end;
 
-    local procedure SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo: Code[20]; NewStatus: Enum "Seminar Document Status ASD") PostingNo: Code[20];
+    local procedure PostSeminarRegistration(SeminarRegistrationNo: Code[20]) PostingNo: Code[20]
     var
-        Seminar: Record "Seminar ASD";
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+        SeminarPost: Codeunit "Seminar-Post ASD";
+    begin
+        SeminarRegistrationHeader.Get(SeminarRegistrationNo);
+        SeminarPost.Run(SeminarRegistrationHeader);
+    end;
+
+    local procedure SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo: Code[20]; NewStatus: Enum "Seminar Document Status ASD") PostingNo: Code[20]
+    var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         LibraryUtility: Codeunit "Library - Utility";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
         SeminarRegistrationHeader.Validate(Status, NewStatus);
-        SeminarRegistrationHeader.Validate("Posting No.", LibraryUtility.GetGlobalNoSeriesCode());
+        SeminarRegistrationHeader.Validate("Posting No.", LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D));
         SeminarRegistrationHeader.Modify();
         exit(SeminarRegistrationHeader."Posting No.");
     end;
 
-    local procedure VerifySeminarRegistrationIsRemoved(SeminarRegistrationNo: Code[20]);
+    local procedure VerifySeminarRegistrationIsRemoved(SeminarRegistrationNo: Code[20])
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
@@ -134,7 +174,7 @@ codeunit 123456777 "Seminar Mgt. Posting ASD"
         Assert.RecordIsEmpty(SeminarRegistrationHeader);
     end;
 
-    local procedure VerifyPostedSeminarRegistrationExists(PostingNo: Code[20]);
+    local procedure VerifyPostedSeminarRegistrationExists(PostingNo: Code[20])
     var
         PostedSeminarRegHeader: Record "Posted Sem. Reg. Header ASD";
     begin
@@ -142,7 +182,7 @@ codeunit 123456777 "Seminar Mgt. Posting ASD"
         Assert.RecordIsNotEmpty(PostedSeminarRegHeader);
     end;
 
-    local procedure VerifySeminarLedgerEntriesExist(PostingNo: Code[20]);
+    local procedure VerifySeminarLedgerEntriesExist(PostingNo: Code[20])
     var
         SeminarLedgerEntry: Record "Seminar Ledger Entry ASD";
     begin
@@ -151,7 +191,7 @@ codeunit 123456777 "Seminar Mgt. Posting ASD"
     end;
 
     [ConfirmHandler]
-    procedure ConfirmHandlerYes(Qst: Text[1024]; var Reply: Boolean);
+    procedure ConfirmHandlerYes(Qst: Text[1024]; var Reply: Boolean)
     begin
         Reply := true;
         // Qst check needs to added

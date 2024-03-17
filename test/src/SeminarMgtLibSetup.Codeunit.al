@@ -14,6 +14,7 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
             SeminarSetup.Init();
             SeminarSetup."Seminar Nos." := LibraryUtility.GetGlobalNoSeriesCode();
             SeminarSetup."Seminar Registration Nos." := LibraryUtility.GetGlobalNoSeriesCode();
+            SeminarSetup."Posted Seminar Reg. Nos." := LibraryUtility.GetGlobalNoSeriesCode();
             SeminarSetup.Insert(true);
         end;
     end;
