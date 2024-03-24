@@ -1,16 +1,15 @@
 codeunit 123456772 "Seminar Mgt. Lib. Oprtns. ASD"
 {
     var
-        LibraryUtility: Codeunit "Library - Utility";
         LibraryRandom: Codeunit "Library - Random";
         LibraryMarketing: Codeunit "Library - Marketing";
 
-    procedure CreateSeminarRegistration(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD");
+    procedure CreateSeminarRegistration(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD")
     begin
         SeminarRegistrationHeader.Insert(true);
     end;
 
-    procedure CreateSeminarRegistrationNo(): Code[20];
+    procedure CreateSeminarRegistrationNo(): Code[20]
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
@@ -18,10 +17,7 @@ codeunit 123456772 "Seminar Mgt. Lib. Oprtns. ASD"
         exit(SeminarRegistrationHeader."No.");
     end;
 
-    procedure CreateSeminarRegistrationLine(var SeminarRegistrationLine: Record "Seminar Registration Line ASD"; SeminarRegistrationNo: Code[20]);
-    var
-        Contact: Record Contact;
-        Customer: Record Customer;
+    procedure CreateSeminarRegistrationLine(var SeminarRegistrationLine: Record "Seminar Registration Line ASD"; SeminarRegistrationNo: Code[20]; CustomerNo: Code[20]; ParticipantNo: Code[20])
     begin
         SeminarRegistrationLine.SetRange("Document No.", SeminarRegistrationNo);
 
@@ -31,15 +27,14 @@ codeunit 123456772 "Seminar Mgt. Lib. Oprtns. ASD"
         SeminarRegistrationLine.Init();
         SeminarRegistrationLine."Line No." := SeminarRegistrationLine."Line No." + 10000;
 
-        LibraryMarketing.CreateContactWithCustomer(Contact, Customer);
-        SeminarRegistrationLine.Validate("Bill-to Customer No.", Customer."No.");
-        SeminarRegistrationLine.Validate("Participant Contact No.", CreatePersonContactWithCompany(Contact."No."));
+        SeminarRegistrationLine.Validate("Bill-to Customer No.", CustomerNo);
+        SeminarRegistrationLine.Validate("Participant Contact No.", ParticipantNo);
 
         SeminarRegistrationLine.Validate("Line Discount %", LibraryRandom.RandInt(25));
         SeminarRegistrationLine.Insert(true);
     end;
 
-    procedure CreatePersonContactWithCompany(CompanyNo: Code[20]): Code[20];
+    procedure CreatePersonContactWithCompany(CompanyNo: Code[20]): Code[20]
     var
         Contact: Record Contact;
     begin

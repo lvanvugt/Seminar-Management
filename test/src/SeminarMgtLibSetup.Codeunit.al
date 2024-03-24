@@ -6,7 +6,7 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
         LibraryInventory: Codeunit "Library - Inventory";
         LibraryERM: Codeunit "Library - ERM";
 
-    procedure CreateSeminarSetup();
+    procedure CreateSeminarSetup()
     var
         SeminarSetup: Record "Seminar Setup ASD";
     begin
@@ -19,7 +19,7 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
         end;
     end;
 
-    procedure CreateSeminar(var Seminar: Record "Seminar ASD"; DoCreateComments: Boolean);
+    procedure CreateSeminar(var Seminar: Record "Seminar ASD"; DoCreateComments: Boolean)
     var
         GeneralPostingSetup: Record "General Posting Setup";
         VATPostingSetup: Record "VAT Posting Setup";
@@ -44,7 +44,7 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
             CreateSeminarComments(Seminar."No.");
     end;
 
-    procedure CreateSeminarNo(DoCreateComments: Boolean): Code[20];
+    procedure CreateSeminarNo(DoCreateComments: Boolean): Code[20]
     var
         Seminar: Record "Seminar ASD";
     begin
@@ -52,12 +52,12 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
         exit(Seminar."No.");
     end;
 
-    procedure CreateSeminarComments(SeminarNo: Code[20]);
+    procedure CreateSeminarComments(SeminarNo: Code[20])
     begin
         CreateComments(SeminarNo, "Comment Line Table Name"::Seminar);
     end;
 
-    procedure CreateComments(SeminarNo: Code[20]; TableName: Enum "Comment Line Table Name");
+    procedure CreateComments(SeminarNo: Code[20]; TableName: Enum "Comment Line Table Name")
     var
         i: Integer;
         N: Integer;
@@ -67,7 +67,7 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
             CreateComment(SeminarNo, TableName);
     end;
 
-    local procedure CreateComment(DocumentNo: Code[20]; TableName: Enum "Comment Line Table Name");
+    local procedure CreateComment(DocumentNo: Code[20]; TableName: Enum "Comment Line Table Name")
     var
         CommentLine: Record "Comment Line";
     begin
@@ -86,17 +86,17 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
         CommentLine.Insert();
     end;
 
-    procedure CreateRoomResource(var Resource: Record Resource);
+    procedure CreateRoomResource(var Resource: Record Resource)
     begin
         CreateResource(Resource, Enum::"Resource Type"::Room)
     end;
 
-    procedure CreateInstructorResource(var Resource: Record Resource);
+    procedure CreateInstructorResource(var Resource: Record Resource)
     begin
         CreateResource(Resource, Enum::"Resource Type"::Person)
     end;
 
-    local procedure CreateResource(var Resource: Record Resource; NewType: Enum "Resource Type");
+    local procedure CreateResource(var Resource: Record Resource; NewType: Enum "Resource Type")
     begin
         if not Resource.Get() then begin
             Resource.Insert(true);
@@ -108,7 +108,7 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
         end
     end;
 
-    local procedure CreateResourceUOM(ResourceNo: Code[20]): Code[10];
+    local procedure CreateResourceUOM(ResourceNo: Code[20]): Code[10]
     var
         UnitOfMeasure: Record "Unit of Measure";
         ResourceUnitOfMeasure: Record "Resource Unit of Measure";
@@ -119,7 +119,7 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
         exit(ResourceUnitOfMeasure.Code);
     end;
 
-    procedure GetLastNoUsed(NoSeriesCode: Code[20]): Code[20];
+    procedure GetLastNoUsed(NoSeriesCode: Code[20]): Code[20]
     var
         NoSeriesLine: Record "No. Series Line";
     begin

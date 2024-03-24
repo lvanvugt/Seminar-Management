@@ -6,7 +6,7 @@ codeunit 123456776 "Seminar Mgt. Oprtns. Reg. ASD"
     TestPermissions = Disabled;
 
     [Test]
-    procedure DeleteSeminarRegistrationNotCancelled();
+    procedure DeleteSeminarRegistrationNotCancelled()
     var
         SeminarRegistrationNo: Code[20];
     begin
@@ -23,7 +23,7 @@ codeunit 123456776 "Seminar Mgt. Oprtns. Reg. ASD"
     end;
 
     [Test]
-    procedure InheritFromSeminarToSeminarRegistrationWithoutLines();
+    procedure InheritFromSeminarToSeminarRegistrationWithoutLines()
     var
         SeminarNo: Code[20];
         SeminarRegistrationNo: Code[20];
@@ -57,7 +57,7 @@ codeunit 123456776 "Seminar Mgt. Oprtns. Reg. ASD"
         StatusMustBeEqualToErr: Label '%1 must be equal to ''%2''  in %3: %4=%5. Current value is ''%6''.';
         FieldOnTableEqualToFieldOnTableErr: Label '%1 on %2 must be equal to %3 on %4.';
 
-    local procedure Initialize();
+    local procedure Initialize()
     var
         LibraryTestInitialize: Codeunit "Library - Test Initialize";
     begin
@@ -76,17 +76,17 @@ codeunit 123456776 "Seminar Mgt. Oprtns. Reg. ASD"
         LibraryTestInitialize.OnAfterTestSuiteInitialize(Codeunit::"Seminar Mgt. Oprtns. Reg. ASD");
     end;
 
-    local procedure CreateSeminar(): Code[20];
+    local procedure CreateSeminar(): Code[20]
     begin
         exit(SeminarMgtLibrarySetup.CreateSeminarNo(false));
     end;
 
-    local procedure CreateSeminarRegistration(): Code[20];
+    local procedure CreateSeminarRegistration(): Code[20]
     begin
         exit(SeminarMgtLibraryOperations.CreateSeminarRegistrationNo());
     end;
 
-    local procedure DeleteSeminarRegistration(SeminarRegistrationNo: Code[20]);
+    local procedure DeleteSeminarRegistration(SeminarRegistrationNo: Code[20])
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
@@ -94,9 +94,8 @@ codeunit 123456776 "Seminar Mgt. Oprtns. Reg. ASD"
         SeminarRegistrationHeader.Delete(true);
     end;
 
-    local procedure SetSeminarNoOnSeminarRegistration(SeminarNo: Code[20]; SeminarRegistrationNo: Code[20]);
+    local procedure SetSeminarNoOnSeminarRegistration(SeminarNo: Code[20]; SeminarRegistrationNo: Code[20])
     var
-        Seminar: Record "Seminar ASD";
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
@@ -104,7 +103,7 @@ codeunit 123456776 "Seminar Mgt. Oprtns. Reg. ASD"
         SeminarRegistrationHeader.Modify();
     end;
 
-    local procedure VerifyStatusError(SeminarRegistrationNo: Code[20]; ExpectedStatus: Enum "Seminar Document Status ASD");
+    local procedure VerifyStatusError(SeminarRegistrationNo: Code[20]; ExpectedStatus: Enum "Seminar Document Status ASD")
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
@@ -119,7 +118,7 @@ codeunit 123456776 "Seminar Mgt. Oprtns. Reg. ASD"
                 SeminarRegistrationHeader.Status));
     end;
 
-    local procedure VerifyInheritanceFromSeminarToSeminarRegistration(SeminarNo: Code[20]; SeminarRegistrationNo: Code[20]);
+    local procedure VerifyInheritanceFromSeminarToSeminarRegistration(SeminarNo: Code[20]; SeminarRegistrationNo: Code[20])
     var
         Seminar: Record "Seminar ASD";
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
@@ -163,7 +162,7 @@ codeunit 123456776 "Seminar Mgt. Oprtns. Reg. ASD"
             SeminarRegistrationHeader.FieldCaption("Maximum Participants"));
     end;
 
-    local procedure FieldsAreEqualInSeminarRegistrationAndSeminar(Expected: Variant; Actual: Variant; FieldCaption1: Text; FieldCaption2: Text);
+    local procedure FieldsAreEqualInSeminarRegistrationAndSeminar(Expected: Variant; Actual: Variant; FieldCaption1: Text; FieldCaption2: Text)
     var
         Seminar: Record "Seminar ASD";
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
@@ -171,7 +170,7 @@ codeunit 123456776 "Seminar Mgt. Oprtns. Reg. ASD"
         FieldsAreEqual(Expected, Actual, FieldCaption2, SeminarRegistrationHeader.TableCaption, FieldCaption1, Seminar.TableCaption);
     end;
 
-    local procedure FieldsAreEqual(Expected: Variant; Actual: Variant; FieldCaption1: Text; TableCaption1: Text; FieldCaption2: Text; TableCaption2: Text);
+    local procedure FieldsAreEqual(Expected: Variant; Actual: Variant; FieldCaption1: Text; TableCaption1: Text; FieldCaption2: Text; TableCaption2: Text)
     begin
         Assert.AreEqual(Expected, Actual,
             StrSubstNo(FieldOnTableEqualToFieldOnTableErr, FieldCaption2, TableCaption1, FieldCaption1, TableCaption2));

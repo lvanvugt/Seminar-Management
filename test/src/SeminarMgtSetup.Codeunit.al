@@ -7,7 +7,7 @@ codeunit 123456775 "Seminar Mgt. Setup ASD"
 
     [Test]
     [TransactionModel(TransactionModel::AutoRollback)]
-    procedure InsertRecordOnOpenPageSeminarSetup();
+    procedure InsertRecordOnOpenPageSeminarSetup()
     var
         SeminarSetup: TestPage "Seminar Setup ASD";
     begin
@@ -30,7 +30,7 @@ codeunit 123456775 "Seminar Mgt. Setup ASD"
     end;
 
     [Test]
-    procedure CreateSeminarUsingNoSeries();
+    procedure CreateSeminarUsingNoSeries()
     begin
         // [SCENARIO 0002] Create seminar record using no. series
         // [GIVEN] No. Series for seminar
@@ -44,7 +44,7 @@ codeunit 123456775 "Seminar Mgt. Setup ASD"
     end;
 
     [Test]
-    procedure DeleteSeminarWithCommentLines();
+    procedure DeleteSeminarWithCommentLines()
     var
         SeminarNo: Code[20];
     begin
@@ -68,7 +68,7 @@ codeunit 123456775 "Seminar Mgt. Setup ASD"
         isInitialized: Boolean;
         FieldOnTableErr: Label '%1 field on %2 table.';
 
-    local procedure Initialize();
+    local procedure Initialize()
     var
         LibraryTestInitialize: Codeunit "Library - Test Initialize";
     begin
@@ -86,12 +86,12 @@ codeunit 123456775 "Seminar Mgt. Setup ASD"
         LibraryTestInitialize.OnAfterTestSuiteInitialize(Codeunit::"Seminar Mgt. Setup ASD");
     end;
 
-    local procedure CreateSeminar(DoCreateComments: Boolean): Code[20];
+    local procedure CreateSeminar(DoCreateComments: Boolean): Code[20]
     begin
         exit(SeminarMgtLibrarySetup.CreateSeminarNo(DoCreateComments));
     end;
 
-    local procedure DeleteSeminar(SeminarNo: Code[20]);
+    local procedure DeleteSeminar(SeminarNo: Code[20])
     var
         Seminar: Record "Seminar ASD";
     begin
@@ -99,28 +99,24 @@ codeunit 123456775 "Seminar Mgt. Setup ASD"
         Seminar.Delete(true);
     end;
 
-    local procedure RemoveSeminarSetupRecord();
+    local procedure RemoveSeminarSetupRecord()
     var
         SeminarSetup: Record "Seminar Setup ASD";
     begin
         SeminarSetup.DeleteAll();
     end;
 
-    local procedure CheckNoSeminarSetupRecordExists();
-    var
-        SeminarSetup: Record "Seminar Setup ASD";
+    local procedure CheckNoSeminarSetupRecordExists()
     begin
         Assert.TableIsEmpty(Database::"Seminar Setup ASD")
     end;
 
-    local procedure CheckSeminarSetupRecordExists();
-    var
-        SeminarSetup: Record "Seminar Setup ASD";
+    local procedure CheckSeminarSetupRecordExists()
     begin
         Assert.TableIsNotEmpty(Database::"Seminar Setup ASD")
     end;
 
-    local procedure VerifySeminarExistWithNoBasedOnNoSeries();
+    local procedure VerifySeminarExistWithNoBasedOnNoSeries()
     var
         Seminar: Record "Seminar ASD";
         SeminarSetup: Record "Seminar Setup ASD";
@@ -134,7 +130,7 @@ codeunit 123456775 "Seminar Mgt. Setup ASD"
             StrSubstNo(FieldOnTableErr, Seminar.FieldCaption("No. Series"), Seminar.TableCaption()));
     end;
 
-    local procedure VerifyCommentLinesExistForSeminar(SeminarNo: Code[20]);
+    local procedure VerifyCommentLinesExistForSeminar(SeminarNo: Code[20])
     var
         CommentLine: Record "Comment Line";
     begin
@@ -143,7 +139,7 @@ codeunit 123456775 "Seminar Mgt. Setup ASD"
         Assert.RecordIsNotEmpty(CommentLine)
     end;
 
-    local procedure VerifyCommentLinesDoNotExistForSeminar(SeminarNo: Code[20]);
+    local procedure VerifyCommentLinesDoNotExistForSeminar(SeminarNo: Code[20])
     var
         CommentLine: Record "Comment Line";
     begin
