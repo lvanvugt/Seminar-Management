@@ -156,15 +156,15 @@ codeunit 123456779 "CNATesterASD"
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarPostASD: Codeunit "Seminar-Post ASD";
         SeminarMgtLibOprtnsASD: Codeunit "Seminar Mgt. Lib. Oprtns. ASD";
-        test: Text;
+        SeminarMgtLibSetupASD: Codeunit "Seminar Mgt. Lib. Setup ASD";
     begin
         // [GIVEN] Seminar registration with no lines
+        SeminarMgtLibSetupASD.CreateSeminarSetup();
         SeminarMgtLibOprtnsASD.CreateSeminarRegistration(SeminarRegistrationHeader);
         // [WHEN] Testing valid Seminar Registration
         asserterror seminarPostASD.VerifySeminarLinesExists(SeminarRegistrationHeader);
         // [THEN] Related ledger entries exist
-        test := GetLastErrorText(); //TODO
-        Assert.ExpectedError('Room Resource No. must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
+        Assert.ExpectedError('There is nothing to post.');
     end;
 
     [Test]
@@ -172,12 +172,17 @@ codeunit 123456779 "CNATesterASD"
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
+        SeminarMgtLibSetupASD: Codeunit "Seminar Mgt. Lib. Setup ASD";
         SeminarPostASD: Codeunit "Seminar-Post ASD";
         SeminarMgtLibOprtnsASD: Codeunit "Seminar Mgt. Lib. Oprtns. ASD";
     begin
         // [GIVEN] Seminar registration with lines
+        SeminarMgtLibSetupASD.CreateSeminarSetup();
         SeminarMgtLibOprtnsASD.CreateSeminarRegistration(SeminarRegistrationHeader);
-        SeminarMgtLibOprtnsASD.CreateSeminarRegistrationLine(SeminarRegistrationLineASD, SeminarRegistrationHeader."No.");
+        SeminarRegistrationLineASD.Init();
+        SeminarRegistrationLineASD."Line No." := 10000;
+        SeminarRegistrationLineASD."Document No." := SeminarRegistrationHeader."No.";
+        SeminarRegistrationLineASD.Insert(false);
         // [WHEN] Testing valid Seminar Registration
         seminarPostASD.VerifySeminarLinesExists(SeminarRegistrationHeader);
         // [THEN] Related ledger entries exist
@@ -197,9 +202,9 @@ codeunit 123456779 "CNATesterASD"
         SeminarRegistrationLineASD := CreateSeminarRegistrationLine(SeminarRegistrationLineASD.FieldNo("Bill-to Customer No."));
 
         // [WHEN] Testing VerifySeminarRegLineForPosting
-        seminarPostASD.VerifySeminarRegLineForPosting(SeminarRegistrationLineASD);
+        asserterror seminarPostASD.VerifySeminarRegLineForPosting(SeminarRegistrationLineASD);
         // [THEN] Bill-to Customer No. error
-        Assert.ExpectedError('Bill-to Customer No. must have a value in Seminar Registration Line: No.=. It cannot be zero or empty.');
+        Assert.ExpectedError('Bill-to Customer No. must have a value in Seminar Registration Line: Document No.=, Line No.=0. It cannot be zero or empty.');
     end;
 
     [Test]
@@ -212,9 +217,9 @@ codeunit 123456779 "CNATesterASD"
         SeminarRegistrationLineASD := CreateSeminarRegistrationLine(SeminarRegistrationLineASD.FieldNo("Participant Contact No."));
 
         // [WHEN] Testing valid VerifySeminarRegLineForPosting
-        seminarPostASD.VerifySeminarRegLineForPosting(SeminarRegistrationLineASD);
+        asserterror seminarPostASD.VerifySeminarRegLineForPosting(SeminarRegistrationLineASD);
         // [THEN] Participant Contact No. error
-        Assert.ExpectedError('Participant Contact No. must have a value in Seminar Registration Line: No.=. It cannot be zero or empty.');
+        Assert.ExpectedError('Participant Contact No. must have a value in Seminar Registration Line: Document No.=, Line No.=0. It cannot be zero or empty.');
     end;
 
     [Test]
