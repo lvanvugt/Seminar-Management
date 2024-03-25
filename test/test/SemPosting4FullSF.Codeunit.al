@@ -463,7 +463,7 @@ codeunit 123456763 "Sem. Posting (4) Full SF ASD"
         SeminarPost.Run(SeminarRegistrationHeader);
     end;
 
-    local procedure SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo: Code[20]; NewStatus: Enum "Seminar Document Status ASD") PostingNo: Code[20]
+    local procedure SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo: Code[20]; NewStatus: Enum "Seminar Document Status ASD"): Code[20]
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         LibraryUtility: Codeunit "Library - Utility";

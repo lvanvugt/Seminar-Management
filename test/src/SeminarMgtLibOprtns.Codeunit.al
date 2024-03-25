@@ -1,7 +1,7 @@
 codeunit 123456772 "Seminar Mgt. Lib. Oprtns. ASD"
 {
     var
-        LibraryRandom: Codeunit "Library - Random";
+        Any: Codeunit Any;
         LibraryMarketing: Codeunit "Library - Marketing";
 
     procedure CreateSeminarRegistration(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD")
@@ -30,7 +30,7 @@ codeunit 123456772 "Seminar Mgt. Lib. Oprtns. ASD"
         SeminarRegistrationLine.Validate("Bill-to Customer No.", CustomerNo);
         SeminarRegistrationLine.Validate("Participant Contact No.", ParticipantNo);
 
-        SeminarRegistrationLine.Validate("Line Discount %", LibraryRandom.RandInt(25));
+        SeminarRegistrationLine.Validate("Line Discount %", Any.IntegerInRange(25));
         SeminarRegistrationLine.Insert(true);
     end;
 

@@ -2,7 +2,7 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
 {
     var
         LibraryUtility: Codeunit "Library - Utility";
-        LibraryRandom: Codeunit "Library - Random";
+        Any: Codeunit Any;
         LibraryInventory: Codeunit "Library - Inventory";
         LibraryERM: Codeunit "Library - ERM";
 
@@ -27,10 +27,10 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
         if not Seminar.Get() then begin
             Seminar.Insert(true);
             Seminar.Name := Seminar."No.";
-            Seminar."Duration" := LibraryRandom.RandInt(5);
-            Seminar."Minimum Participants" := LibraryRandom.RandInt(5);
-            Seminar."Maximum Participants" := LibraryRandom.RandIntInRange(Seminar."Minimum Participants", 20);
-            Seminar.Price := LibraryRandom.RandInt(100);
+            Seminar."Duration" := Any.IntegerInRange(5);
+            Seminar."Minimum Participants" := Any.IntegerInRange(5);
+            Seminar."Maximum Participants" := Any.IntegerInRange(Seminar."Minimum Participants", 20);
+            Seminar.Price := Any.IntegerInRange(100);
 
             CreateGeneralPostingSetup(GeneralPostingSetup);
             Seminar."Gen. Prod. Posting Group" := GeneralPostingSetup."Gen. Prod. Posting Group";
@@ -62,7 +62,7 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
         i: Integer;
         N: Integer;
     begin
-        N := LibraryRandom.RandInt(5);
+        N := Any.IntegerInRange(5);
         for i := 1 to N do
             CreateComment(SeminarNo, TableName);
     end;
@@ -102,7 +102,7 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
             Resource.Insert(true);
             Resource.Name := Resource."No.";
             Resource."Type" := NewType;
-            Resource."Quantity per Day ASD" := LibraryRandom.RandInt(100);
+            Resource."Quantity per Day ASD" := Any.IntegerInRange(100);
             Resource."Base Unit of Measure" := CreateResourceUOM(Resource."No.");
             Resource.Modify(true);
         end
@@ -160,7 +160,7 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
 
         LibraryERM.CreateVATPostingSetup(VATPostingSetup, VATBusinessPostingGroup.Code, VATProductPostingGroup.Code);
         VATPostingSetup."VAT Identifier" := VATPostingSetup."VAT Prod. Posting Group";
-        VATPostingSetup."VAT %" := LibraryRandom.RandDec(10, 2);
+        VATPostingSetup."VAT %" := Any.DecimalInRange(10, 2);
         VATPostingSetup."VAT Calculation Type" := VATPostingSetup."VAT Calculation Type"::"Normal VAT";
         VATPostingSetup.Modify(true);
     end;
