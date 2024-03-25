@@ -380,8 +380,8 @@ codeunit 123456763 "Sem. Posting (4) Full SF ASD"
         SeminarMgtLibraryOperations.CreateSeminarRegistration(SeminarRegistrationHeader);
 
         SeminarRegistrationHeader.Validate("Seminar No.", SeminarNo);
-        SeminarRegistrationHeader.Validate("Instructor Resource No.", InstructorNo);
-        SeminarRegistrationHeader.Validate("Room Resource No.", RoomNo);
+        SeminarRegistrationHeader."Instructor Resource No." := InstructorNo;
+        SeminarRegistrationHeader."Room Resource No." := RoomNo;
         SeminarRegistrationHeader.Modify();
 
         exit(SeminarRegistrationHeader."No.");
@@ -469,8 +469,8 @@ codeunit 123456763 "Sem. Posting (4) Full SF ASD"
         LibraryUtility: Codeunit "Library - Utility";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader.Validate(Status, NewStatus);
-        SeminarRegistrationHeader.Validate("Posting No.", LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D));
+        SeminarRegistrationHeader.Status := NewStatus;
+        SeminarRegistrationHeader."Posting No." := LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D);
         SeminarRegistrationHeader.Modify();
         exit(SeminarRegistrationHeader."Posting No.");
     end;
@@ -542,7 +542,7 @@ codeunit 123456763 "Sem. Posting (4) Full SF ASD"
 
     local procedure VerifyMustBeEqualToErrorThrown(FieldCaption: Text; FieldValue: Text)
     var
-        MustBeEqualToErr: label 'must be equal to';
+        MustBeEqualToErr: Label 'must be equal to';
     begin
         Assert.ExpectedError(FieldCaption);
         Assert.ExpectedError(MustBeEqualToErr);
@@ -551,7 +551,7 @@ codeunit 123456763 "Sem. Posting (4) Full SF ASD"
 
     local procedure VerifyMustHaveValueErrorThrown(FieldCaption: Text)
     var
-        MustHaveValueErr: label 'must have a value';
+        MustHaveValueErr: Label 'must have a value';
     begin
         Assert.ExpectedError(FieldCaption);
         Assert.ExpectedError(MustHaveValueErr);

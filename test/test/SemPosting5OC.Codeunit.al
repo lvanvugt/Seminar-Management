@@ -480,8 +480,8 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
         LibraryUtility: Codeunit "Library - Utility";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader.Validate(Status, NewStatus);
-        SeminarRegistrationHeader.Validate("Posting No.", LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D));
+        SeminarRegistrationHeader.Status := NewStatus;
+        SeminarRegistrationHeader."Posting No." := LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D);
         SeminarRegistrationHeader.Modify();
         exit(SeminarRegistrationHeader."Posting No.");
     end;
@@ -553,7 +553,7 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
 
     local procedure VerifyMustBeEqualToErrorThrown(FieldCaption: Text; FieldValue: Text)
     var
-        MustBeEqualToErr: label 'must be equal to';
+        MustBeEqualToErr: Label 'must be equal to';
     begin
         Assert.ExpectedError(FieldCaption);
         Assert.ExpectedError(MustBeEqualToErr);
@@ -562,7 +562,7 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
 
     local procedure VerifyMustHaveValueErrorThrown(FieldCaption: Text)
     var
-        MustHaveValueErr: label 'must have a value';
+        MustHaveValueErr: Label 'must have a value';
     begin
         Assert.ExpectedError(FieldCaption);
         Assert.ExpectedError(MustHaveValueErr);

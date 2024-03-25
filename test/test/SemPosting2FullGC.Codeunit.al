@@ -468,8 +468,8 @@ codeunit 123456761 "Sem. Posting (2) Full GC ASD"
         SeminarMgtLibraryOperations.CreateSeminarRegistration(SeminarRegistrationHeader);
 
         SeminarRegistrationHeader.Validate("Seminar No.", SeminarNo);
-        SeminarRegistrationHeader.Validate("Instructor Resource No.", InstructorNo);
-        SeminarRegistrationHeader.Validate("Room Resource No.", RoomNo);
+        SeminarRegistrationHeader."Instructor Resource No." := InstructorNo;
+        SeminarRegistrationHeader."Room Resource No." := RoomNo;
         SeminarRegistrationHeader.Modify();
 
         exit(SeminarRegistrationHeader."No.");
@@ -557,8 +557,8 @@ codeunit 123456761 "Sem. Posting (2) Full GC ASD"
         LibraryUtility: Codeunit "Library - Utility";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader.Validate(Status, NewStatus);
-        SeminarRegistrationHeader.Validate("Posting No.", LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D));
+        SeminarRegistrationHeader.Status := NewStatus;
+        SeminarRegistrationHeader."Posting No." := LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D);
         SeminarRegistrationHeader.Modify();
         exit(SeminarRegistrationHeader."Posting No.");
     end;

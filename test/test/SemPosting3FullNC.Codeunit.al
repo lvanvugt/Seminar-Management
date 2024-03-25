@@ -374,9 +374,6 @@ codeunit 123456762 "Sem. Posting (3) Full NC ASD"
 
     local procedure Initialize()
     var
-        Contact: Record Contact;
-        Customer: Record Customer;
-        Resource: Record Resource;
         LibraryTestInitialize: Codeunit "Library - Test Initialize";
     begin
         LibraryTestInitialize.OnTestInitialize(Codeunit::"Sem. Posting (3) Full NC ASD");
@@ -464,8 +461,8 @@ codeunit 123456762 "Sem. Posting (3) Full NC ASD"
         SeminarMgtLibraryOperations.CreateSeminarRegistration(SeminarRegistrationHeader);
 
         SeminarRegistrationHeader.Validate("Seminar No.", SeminarNo);
-        SeminarRegistrationHeader.Validate("Instructor Resource No.", InstructorNo);
-        SeminarRegistrationHeader.Validate("Room Resource No.", RoomNo);
+        SeminarRegistrationHeader."Instructor Resource No." := InstructorNo;
+        SeminarRegistrationHeader."Room Resource No." := RoomNo;
         SeminarRegistrationHeader.Modify();
 
         exit(SeminarRegistrationHeader."No.");
@@ -553,8 +550,8 @@ codeunit 123456762 "Sem. Posting (3) Full NC ASD"
         LibraryUtility: Codeunit "Library - Utility";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader.Validate(Status, NewStatus);
-        SeminarRegistrationHeader.Validate("Posting No.", LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D));
+        SeminarRegistrationHeader.Status := NewStatus;
+        SeminarRegistrationHeader."Posting No." := LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D);
         SeminarRegistrationHeader.Modify();
         exit(SeminarRegistrationHeader."Posting No.");
     end;
