@@ -1,4 +1,4 @@
-codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
+codeunit 123456764 "Sem. Posting (5) OC ASD"
 {
     // [FEATURE][Seminar Management][Posting]
 
@@ -10,26 +10,16 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
     [HandlerFunctions('ConfirmHandlerYes')]
     procedure PostClosedSeminarRegistrationFromSeminarRegistrationList()
     var
-        CustomerNo: Code[20];
-        InstructorResourceNo: Code[20];
-        ParticipantNo: Code[20];
         PostingNo: Code[20];
-        RoomResourceNo: Code[20];
-        SeminarNo: Code[20];
         SeminarRegistrationNo: Code[20];
     begin
         // [SCENARIO 0070] Post closed seminar registration from Seminar Registration List page
-        Initialize();
         // [GIVEN] Seminar
-        SeminarNo := CreateSeminar();
         // [GIVEN] Instructor resource
-        InstructorResourceNo := CreateInstructorResource();
         // [GIVEN] Room resource
-        RoomResourceNo := CreateRoomResource();
         // [GIVEN] Customer with company contact
-        CustomerNo := CreateCustomerWithCompanyContact();
         // [GIVEN] Person contact for customer
-        ParticipantNo := CreatePersonContactForCustomer(CustomerNo);
+        Initialize();
         // [GIVEN] Closed seminar registration with one participant line
         SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, ParticipantNo);
         PostingNo := SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
@@ -42,41 +32,31 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
         VerifySeminarRegistrationIsRemoved(SeminarRegistrationNo);
         // [THEN] Posted seminar registration exists
         VerifyPostedSeminarRegistrationExists(PostingNo);
-        //[THEN] Customer related seminar ledger entry exists
+        // [THEN] Customer related seminar ledger entry exists
         VerifyCustomerRelatedSeminarLedgerEntryExists(PostingNo, CustomerNo, ParticipantNo);
-        //[THEN] Instructor related seminar ledger entry exists
+        // [THEN] Instructor related seminar ledger entry exists
         VerifyInstructorRelatedSeminarLedgerEntryExists(PostingNo, InstructorResourceNo);
-        //[THEN] Room related seminar ledger entry exists
+        // [THEN] Room related seminar ledger entry exists
         VerifyRoomRelatedSeminarLedgerEntryExists(PostingNo, RoomResourceNo);
-        //[THEN] Instructor related resource ledger entry exists
+        // [THEN] Instructor related resource ledger entry exists
         VerifyInstructorRelatedResourceLedgerEntryExists(PostingNo, InstructorResourceNo);
-        //[THEN] Room related resource ledger entry exists
+        // [THEN] Room related resource ledger entry exists
         VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, RoomResourceNo);
     end;
 
     [Test]
     procedure PostClosedSeminarRegistration()
     var
-        CustomerNo: Code[20];
-        InstructorResourceNo: Code[20];
-        ParticipantNo: Code[20];
         PostingNo: Code[20];
-        RoomResourceNo: Code[20];
-        SeminarNo: Code[20];
         SeminarRegistrationNo: Code[20];
     begin
         // [SCENARIO 0400] Post closed seminar registration
-        Initialize();
         // [GIVEN] Seminar
-        SeminarNo := CreateSeminar();
         // [GIVEN] Instructor resource
-        InstructorResourceNo := CreateInstructorResource();
         // [GIVEN] Room resource
-        RoomResourceNo := CreateRoomResource();
         // [GIVEN] Customer with company contact
-        CustomerNo := CreateCustomerWithCompanyContact();
         // [GIVEN] Person contact for customer
-        ParticipantNo := CreatePersonContactForCustomer(CustomerNo);
+        Initialize();
         // [GIVEN] Closed seminar registration with one participant line
         SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, ParticipantNo);
         PostingNo := SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
@@ -88,46 +68,38 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
         VerifySeminarRegistrationIsRemoved(SeminarRegistrationNo);
         // [THEN] Posted seminar registration exists
         VerifyPostedSeminarRegistrationExists(PostingNo);
-        //[THEN] Customer related seminar ledger entry exists
+        // [THEN] Customer related seminar ledger entry exists
         VerifyCustomerRelatedSeminarLedgerEntryExists(PostingNo, CustomerNo, ParticipantNo);
-        //[THEN] Instructor related seminar ledger entry exists
+        // [THEN] Instructor related seminar ledger entry exists
         VerifyInstructorRelatedSeminarLedgerEntryExists(PostingNo, InstructorResourceNo);
-        //[THEN] Room related seminar ledger entry exists
+        // [THEN] Room related seminar ledger entry exists
         VerifyRoomRelatedSeminarLedgerEntryExists(PostingNo, RoomResourceNo);
-        //[THEN] Instructor related resource ledger entry exists
+        // [THEN] Instructor related resource ledger entry exists
         VerifyInstructorRelatedResourceLedgerEntryExists(PostingNo, InstructorResourceNo);
-        //[THEN] Room related resource ledger entry exists
+        // [THEN] Room related resource ledger entry exists
         VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, RoomResourceNo);
     end;
 
     [Test]
     procedure PostNonClosedSeminarRegistration()
     var
-        CustomerNo: Code[20];
-        InstructorResourceNo: Code[20];
-        ParticipantNo: Code[20];
-        RoomResourceNo: Code[20];
-        SeminarNo: Code[20];
-        SeminarRegistrationNo: Code[20];
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO 0401] Post non-closed seminar registration
-        Initialize();
+        // [SCENARIO #0401] Post non-closed seminar registration
         // [GIVEN] Seminar
-        SeminarNo := CreateSeminar();
         // [GIVEN] Instructor resource
-        InstructorResourceNo := CreateInstructorResource();
         // [GIVEN] Room resource
-        RoomResourceNo := CreateRoomResource();
-        // [GIVEN] Customer with company contact
-        CustomerNo := CreateCustomerWithCompanyContact();
-        // [GIVEN] Person contact for customer
-        ParticipantNo := CreatePersonContactForCustomer(CustomerNo);
+        // [GIVEN] Customer with contact
         // [GIVEN] Non-closed seminar registration with one participant line
-        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, ParticipantNo);
-        SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Planning);
+        // [WHEN] Post seminar registration
+        // [THEN] Status must be equal to closed error thrown
+
+        // [SCENARIO 0401-optimized] Post non-closed seminar registration
+        // [GIVEN] Non-closed seminar registration header
+        // defined by SeminarRegistrationHeader variable
 
         // [WHEN] Post seminar registration
-        asserterror PostSeminarRegistration(SeminarRegistrationNo);
+        asserterror PostSeminarRegistration(SeminarRegistrationHeader);
 
         // [THEN] Status must be equal to closed error thrown
         VerifyMustBeEqualToErrorThrown('Status', 'Closed');
@@ -136,32 +108,23 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
     [Test]
     procedure PostClosedSeminarRegistrationWithEmptyPostingDate()
     var
-        CustomerNo: Code[20];
-        InstructorResourceNo: Code[20];
-        ParticipantNo: Code[20];
-        RoomResourceNo: Code[20];
-        SeminarNo: Code[20];
-        SeminarRegistrationNo: Code[20];
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO 0402] Post closed seminar registration with empty posting date
-        Initialize();
+        // [SCENARIO #0402] Post closed seminar registration with empty posting date
         // [GIVEN] Seminar
-        SeminarNo := CreateSeminar();
         // [GIVEN] Instructor resource
-        InstructorResourceNo := CreateInstructorResource();
         // [GIVEN] Room resource
-        RoomResourceNo := CreateRoomResource();
-        // [GIVEN] Customer with company contact
-        CustomerNo := CreateCustomerWithCompanyContact();
-        // [GIVEN] Person contact for customer
-        ParticipantNo := CreatePersonContactForCustomer(CustomerNo);
+        // [GIVEN] Customer with contact
         // [GIVEN] Closed seminar registration with one participant line and empty posting date
-        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, ParticipantNo);
-        SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
-        EmptyPostingDateOnSeminarRegistration(SeminarRegistrationNo);
+        // [WHEN] Post seminar registration
+        // [THEN] Posting date must be have value error thrown
+
+        // [SCENARIO 0402-optimized] Post closed seminar registration with empty posting date
+        // [GIVEN] Closed seminar registration header with empty posting date
+        ClosedSeminarRegistrationHeaderWithEmptyPostingDate(SeminarRegistrationHeader);
 
         // [WHEN] Post seminar registration
-        asserterror PostSeminarRegistration(SeminarRegistrationNo);
+        asserterror PostSeminarRegistration(SeminarRegistrationHeader);
 
         // [THEN] Posting date must be have value error thrown
         VerifyMustHaveValueErrorThrown('Posting Date');
@@ -170,32 +133,23 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
     [Test]
     procedure PostClosedSeminarRegistrationWithEmptyDocumentDate()
     var
-        CustomerNo: Code[20];
-        InstructorResourceNo: Code[20];
-        ParticipantNo: Code[20];
-        RoomResourceNo: Code[20];
-        SeminarNo: Code[20];
-        SeminarRegistrationNo: Code[20];
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO 0403] Post closed seminar registration with empty document date
-        Initialize();
+        // [SCENARIO #0403] Post closed seminar registration with empty document date
         // [GIVEN] Seminar
-        SeminarNo := CreateSeminar();
         // [GIVEN] Instructor resource
-        InstructorResourceNo := CreateInstructorResource();
         // [GIVEN] Room resource
-        RoomResourceNo := CreateRoomResource();
-        // [GIVEN] Customer with company contact
-        CustomerNo := CreateCustomerWithCompanyContact();
-        // [GIVEN] Person contact for customer
-        ParticipantNo := CreatePersonContactForCustomer(CustomerNo);
+        // [GIVEN] Customer with contact
         // [GIVEN] Closed seminar registration with one participant line and empty document date
-        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, ParticipantNo);
-        SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
-        EmptyDocumentDateOnSeminarRegistration(SeminarRegistrationNo);
+        // [WHEN] Post seminar registration
+        // [THEN] Document date must be have value error thrown
+
+        // [SCENARIO 0403-optimized] Post closed seminar registration with empty document date
+        // [GIVEN] Closed seminar registration header with empty document date
+        ClosedSeminarRegistrationHeaderWithEmptyDocumentDate(SeminarRegistrationHeader);
 
         // [WHEN] Post seminar registration
-        asserterror PostSeminarRegistration(SeminarRegistrationNo);
+        asserterror PostSeminarRegistration(SeminarRegistrationHeader);
 
         // [THEN] Document date must be have value error thrown
         VerifyMustHaveValueErrorThrown('Document Date');
@@ -204,32 +158,23 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
     [Test]
     procedure PostClosedSeminarRegistrationWithEmptySeminarNumber()
     var
-        CustomerNo: Code[20];
-        InstructorResourceNo: Code[20];
-        ParticipantNo: Code[20];
-        RoomResourceNo: Code[20];
-        SeminarNo: Code[20];
-        SeminarRegistrationNo: Code[20];
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO 0404] Post closed seminar registration with empty seminar number
-        Initialize();
+        // [SCENARIO #0404] Post closed seminar registration with empty seminar number
         // [GIVEN] Seminar
-        SeminarNo := CreateSeminar();
         // [GIVEN] Instructor resource
-        InstructorResourceNo := CreateInstructorResource();
         // [GIVEN] Room resource
-        RoomResourceNo := CreateRoomResource();
-        // [GIVEN] Customer with company contact
-        CustomerNo := CreateCustomerWithCompanyContact();
-        // [GIVEN] Person contact for customer
-        ParticipantNo := CreatePersonContactForCustomer(CustomerNo);
+        // [GIVEN] Customer with contact
         // [GIVEN] Closed seminar registration with one participant line and empty seminar number
-        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, ParticipantNo);
-        SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
-        EmptySeminarNumberOnSeminarRegistration(SeminarRegistrationNo);
+        // [WHEN] Post seminar registration
+        // [THEN] Seminar number must be have value error thrown
+
+        // [SCENARIO 0404-optimized] Post closed seminar registration with empty seminar number
+        // [GIVEN] Closed seminar registration header with empty seminar number
+        ClosedSeminarRegistrationHeaderWithEmptySeminarNo(SeminarRegistrationHeader);
 
         // [WHEN] Post seminar registration
-        asserterror PostSeminarRegistration(SeminarRegistrationNo);
+        asserterror PostSeminarRegistration(SeminarRegistrationHeader);
 
         // [THEN] Seminar number must be have value error thrown
         VerifyMustHaveValueErrorThrown('Seminar No.');
@@ -238,32 +183,23 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
     [Test]
     procedure PostClosedSeminarRegistrationWithEmptyDuration()
     var
-        CustomerNo: Code[20];
-        InstructorResourceNo: Code[20];
-        ParticipantNo: Code[20];
-        RoomResourceNo: Code[20];
-        SeminarNo: Code[20];
-        SeminarRegistrationNo: Code[20];
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO 0405] Post closed seminar registration with empty duration
-        Initialize();
+        // [SCENARIO #0405] Post closed seminar registration with empty duration
         // [GIVEN] Seminar
-        SeminarNo := CreateSeminar();
         // [GIVEN] Instructor resource
-        InstructorResourceNo := CreateInstructorResource();
         // [GIVEN] Room resource
-        RoomResourceNo := CreateRoomResource();
-        // [GIVEN] Customer with company contact
-        CustomerNo := CreateCustomerWithCompanyContact();
-        // [GIVEN] Person contact for customer
-        ParticipantNo := CreatePersonContactForCustomer(CustomerNo);
+        // [GIVEN] Customer with contact
         // [GIVEN] Closed seminar registration with one participant line and empty duration
-        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, ParticipantNo);
-        SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
-        EmptyDurationOnSeminarRegistration(SeminarRegistrationNo);
+        // [WHEN] Post seminar registration
+        // [THEN] Duration must be have value error thrown
+
+        // [SCENARIO 0405-optimized] Post closed seminar registration with empty duration
+        // [GIVEN] Closed seminar registration header with empty duration
+        ClosedSeminarRegistrationHeaderWithEmptyDuration(SeminarRegistrationHeader);
 
         // [WHEN] Post seminar registration
-        asserterror PostSeminarRegistration(SeminarRegistrationNo);
+        asserterror PostSeminarRegistration(SeminarRegistrationHeader);
 
         // [THEN] Duration must be have value error thrown
         VerifyMustHaveValueErrorThrown('Duration');
@@ -272,32 +208,23 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
     [Test]
     procedure PostClosedSeminarRegistrationWithEmptyInstructorResourceNumber()
     var
-        CustomerNo: Code[20];
-        InstructorResourceNo: Code[20];
-        ParticipantNo: Code[20];
-        RoomResourceNo: Code[20];
-        SeminarNo: Code[20];
-        SeminarRegistrationNo: Code[20];
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO 0406] Post closed seminar registration with empty instructor resource number
-        Initialize();
+        // [SCENARIO #0406] Post closed seminar registration with empty instructor resource number
         // [GIVEN] Seminar
-        SeminarNo := CreateSeminar();
         // [GIVEN] Instructor resource
-        InstructorResourceNo := CreateInstructorResource();
         // [GIVEN] Room resource
-        RoomResourceNo := CreateRoomResource();
-        // [GIVEN] Customer with company contact
-        CustomerNo := CreateCustomerWithCompanyContact();
-        // [GIVEN] Person contact for customer
-        ParticipantNo := CreatePersonContactForCustomer(CustomerNo);
+        // [GIVEN] Customer with contact
         // [GIVEN] Closed seminar registration with one participant line and empty instructor resource number
-        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, ParticipantNo);
-        SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
-        EmptyInstructorResourceNumberOnSeminarRegistration(SeminarRegistrationNo);
+        // [WHEN] Post seminar registration
+        // [THEN] Instructor resource number must be have value error thrown
+
+        // [SCENARIO 0406-optimized] Post closed seminar registration with empty instructor resource number
+        // [GIVEN] Closed seminar registration header with empty instructor resource number
+        ClosedSeminarRegistrationHeaderWithEmptyInstructorResourceNo(SeminarRegistrationHeader);
 
         // [WHEN] Post seminar registration
-        asserterror PostSeminarRegistration(SeminarRegistrationNo);
+        asserterror PostSeminarRegistration(SeminarRegistrationHeader);
 
         // [THEN] Instructor resource number must be have value error thrown
         VerifyMustHaveValueErrorThrown('Instructor Resource No.');
@@ -306,32 +233,23 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
     [Test]
     procedure PostClosedSeminarRegistrationWithEmptyRoomResourceNumber()
     var
-        CustomerNo: Code[20];
-        InstructorResourceNo: Code[20];
-        ParticipantNo: Code[20];
-        RoomResourceNo: Code[20];
-        SeminarNo: Code[20];
-        SeminarRegistrationNo: Code[20];
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO 0407] Post closed seminar registration with empty room resource number
-        Initialize();
+        // [SCENARIO #0407] Post closed seminar registration with empty room resource number
         // [GIVEN] Seminar
-        SeminarNo := CreateSeminar();
         // [GIVEN] Instructor resource
-        InstructorResourceNo := CreateInstructorResource();
         // [GIVEN] Room resource
-        RoomResourceNo := CreateRoomResource();
-        // [GIVEN] Customer with company contact
-        CustomerNo := CreateCustomerWithCompanyContact();
-        // [GIVEN] Person contact for customer
-        ParticipantNo := CreatePersonContactForCustomer(CustomerNo);
+        // [GIVEN] Customer with contact
         // [GIVEN] Closed seminar registration with one participant line and empty room resource number
-        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, ParticipantNo);
-        SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
-        EmptyRoomResourceNumberOnSeminarRegistration(SeminarRegistrationNo);
+        // [WHEN] Post seminar registration
+        // [THEN] Room resource number must be have value error thrown
+
+        // [SCENARIO 0407-optimized] Post closed seminar registration with empty room resource number
+        // [GIVEN] Closed seminar registration header with empty room resource number
+        ClosedSeminarRegistrationHeaderWithEmptyRoomResourceNo(SeminarRegistrationHeader);
 
         // [WHEN] Post seminar registration
-        asserterror PostSeminarRegistration(SeminarRegistrationNo);
+        asserterror PostSeminarRegistration(SeminarRegistrationHeader);
 
         // [THEN] Instructor resource number must be have value error thrown
         VerifyMustHaveValueErrorThrown('Room Resource No.');
@@ -340,25 +258,23 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
     [Test]
     procedure PostClosedSeminarRegistrationWithNoParticipantLine()
     var
-        InstructorResourceNo: Code[20];
-        RoomResourceNo: Code[20];
-        SeminarNo: Code[20];
-        SeminarRegistrationNo: Code[20];
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+    // SeminarRegistrationNo: Code[20];
     begin
-        // [SCENARIO 0408] Post closed seminar registration with empty room resource number
-        Initialize();
+        // [SCENARIO #0408] Post closed seminar registration with no participant line
         // [GIVEN] Seminar
-        SeminarNo := CreateSeminar();
         // [GIVEN] Instructor resource
-        InstructorResourceNo := CreateInstructorResource();
         // [GIVEN] Room resource
-        RoomResourceNo := CreateRoomResource();
         // [GIVEN] Closed seminar registration with no participant line
-        SeminarRegistrationNo := CreateCompleteSeminarRegistrationHeader(SeminarNo, InstructorResourceNo, RoomResourceNo);
-        SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
+        // [WHEN] Post seminar registration
+        // [THEN] Nothing to post error thrown
+
+        // [SCENARIO #0408-optimized] Post closed seminar registration with no participant line
+        // [GIVEN] Closed seminar registration header
+        ClosedSeminarRegistrationHeader(SeminarRegistrationHeader);
 
         // [WHEN] Post seminar registration
-        asserterror PostSeminarRegistration(SeminarRegistrationNo);
+        asserterror PostSeminarRegistration(SeminarRegistrationHeader);
 
         // [THEN] Nothing to post error thrown
         VerifyNothingToPostErrorThrown();
@@ -371,24 +287,39 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
         SeminarMgtLibrarySetup: Codeunit "Seminar Mgt. Lib. Setup ASD";
         SeminarMgtLibraryOperations: Codeunit "Seminar Mgt. Lib. Oprtns. ASD";
         isInitialized: Boolean;
+        CustomerNo: Code[20];
+        InstructorResourceNo: Code[20];
+        ParticipantNo: Code[20];
+        RoomResourceNo: Code[20];
+        SeminarNo: Code[20];
 
     local procedure Initialize()
     var
         LibraryTestInitialize: Codeunit "Library - Test Initialize";
     begin
-        LibraryTestInitialize.OnTestInitialize(Codeunit::"Seminar Mgt. Posting (1) ASD");
+        LibraryTestInitialize.OnTestInitialize(Codeunit::"Sem. Posting (5) OC ASD");
 
         if isInitialized then
             exit;
 
-        LibraryTestInitialize.OnBeforeTestSuiteInitialize(Codeunit::"Seminar Mgt. Posting (1) ASD");
+        LibraryTestInitialize.OnBeforeTestSuiteInitialize(Codeunit::"Sem. Posting (5) OC ASD");
 
         SeminarMgtLibraryInitialize.Initialize();
+        // [GIVEN] Seminar
+        SeminarNo := CreateSeminar();
+        // [GIVEN] Instructor resource
+        InstructorResourceNo := CreateInstructorResource();
+        // [GIVEN] Room resource
+        RoomResourceNo := CreateRoomResource();
+        // [GIVEN] Customer with company contact
+        CustomerNo := CreateCustomerWithCompanyContact();
+        // [GIVEN] Person contact for customer
+        ParticipantNo := CreatePersonContactForCustomer(CustomerNo);
 
         Commit();
         isInitialized := true;
 
-        LibraryTestInitialize.OnAfterTestSuiteInitialize(Codeunit::"Seminar Mgt. Posting (1) ASD");
+        LibraryTestInitialize.OnAfterTestSuiteInitialize(Codeunit::"Sem. Posting (5) OC ASD");
     end;
 
     #region GIVEN helper methods
@@ -461,65 +392,57 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
         SeminarMgtLibraryOperations.CreateSeminarRegistration(SeminarRegistrationHeader);
 
         SeminarRegistrationHeader.Validate("Seminar No.", SeminarNo);
-        SeminarRegistrationHeader.Validate("Instructor Resource No.", InstructorNo);
-        SeminarRegistrationHeader.Validate("Room Resource No.", RoomNo);
+        SeminarRegistrationHeader."Instructor Resource No." := InstructorNo;
+        SeminarRegistrationHeader."Room Resource No." := RoomNo;
         SeminarRegistrationHeader.Modify();
 
         exit(SeminarRegistrationHeader."No.");
     end;
 
-    local procedure EmptyPostingDateOnSeminarRegistration(SeminarRegistrationNo: Code[20])
-    var
-        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+    local procedure ClosedSeminarRegistrationHeaderWithEmptyPostingDate(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD")
     begin
-        SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader."Posting Date" := 0D;
-        SeminarRegistrationHeader.Modify();
+        SetMandatoryFieldsOnSeminarRegistrationHeader(SeminarRegistrationHeader, "Seminar Document Status ASD"::Closed, 0D, 0D, '', 0, '', '');
     end;
 
-    local procedure EmptyDocumentDateOnSeminarRegistration(SeminarRegistrationNo: Code[20])
-    var
-        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+    local procedure ClosedSeminarRegistrationHeaderWithEmptyDocumentDate(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD")
     begin
-        SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader."Document Date" := 0D;
-        SeminarRegistrationHeader.Modify();
+        SetMandatoryFieldsOnSeminarRegistrationHeader(SeminarRegistrationHeader, "Seminar Document Status ASD"::Closed, WorkDate(), 0D, '', 0, '', '');
     end;
 
-    local procedure EmptySeminarNumberOnSeminarRegistration(SeminarRegistrationNo: Code[20])
-    var
-        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+    local procedure ClosedSeminarRegistrationHeaderWithEmptySeminarNo(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD")
     begin
-        SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader."Seminar No." := '';
-        SeminarRegistrationHeader.Modify();
+        SetMandatoryFieldsOnSeminarRegistrationHeader(SeminarRegistrationHeader, "Seminar Document Status ASD"::Closed, WorkDate(), WorkDate(), '', 0, '', '');
     end;
 
-    local procedure EmptyDurationOnSeminarRegistration(SeminarRegistrationNo: Code[20])
-    var
-        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+    local procedure ClosedSeminarRegistrationHeaderWithEmptyDuration(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD")
     begin
-        SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader.Duration := 0;
-        SeminarRegistrationHeader.Modify();
+        SetMandatoryFieldsOnSeminarRegistrationHeader(SeminarRegistrationHeader, "Seminar Document Status ASD"::Closed, WorkDate(), WorkDate(), 'LUC', 0, '', '');
     end;
 
-    local procedure EmptyInstructorResourceNumberOnSeminarRegistration(SeminarRegistrationNo: Code[20])
-    var
-        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+    local procedure ClosedSeminarRegistrationHeaderWithEmptyInstructorResourceNo(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD")
     begin
-        SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader."Instructor Resource No." := '';
-        SeminarRegistrationHeader.Modify();
+        SetMandatoryFieldsOnSeminarRegistrationHeader(SeminarRegistrationHeader, "Seminar Document Status ASD"::Closed, WorkDate(), WorkDate(), 'LUC', 1, '', '');
     end;
 
-    local procedure EmptyRoomResourceNumberOnSeminarRegistration(SeminarRegistrationNo: Code[20])
-    var
-        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+    local procedure ClosedSeminarRegistrationHeaderWithEmptyRoomResourceNo(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD")
     begin
-        SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader."Room Resource No." := '';
-        SeminarRegistrationHeader.Modify();
+        SetMandatoryFieldsOnSeminarRegistrationHeader(SeminarRegistrationHeader, "Seminar Document Status ASD"::Closed, WorkDate(), WorkDate(), 'LUC', 1, 'LUC', '');
+    end;
+
+    local procedure ClosedSeminarRegistrationHeader(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD")
+    begin
+        SetMandatoryFieldsOnSeminarRegistrationHeader(SeminarRegistrationHeader, "Seminar Document Status ASD"::Closed, WorkDate(), WorkDate(), 'LUC', 1, 'LUC', 'LUC');
+    end;
+
+    local procedure SetMandatoryFieldsOnSeminarRegistrationHeader(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD"; NewStatus: Enum "Seminar Document Status ASD"; NewPostingDate: Date; NewDocumentDate: Date; NewSeminarNo: Code[20]; NewDuration: Duration; NewInstructorResourceNo: Code[20]; NewRoomResourceNo: Code[20])
+    begin
+        SeminarRegistrationHeader.Status := NewStatus;
+        SeminarRegistrationHeader."Posting Date" := NewPostingDate;
+        SeminarRegistrationHeader."Document Date" := NewDocumentDate;
+        SeminarRegistrationHeader."Seminar No." := NewSeminarNo;
+        SeminarRegistrationHeader.Duration := NewDuration;
+        SeminarRegistrationHeader."Instructor Resource No." := NewInstructorResourceNo;
+        SeminarRegistrationHeader."Room Resource No." := NewRoomResourceNo;
     end;
     #endregion GIVEN helper methods
 
@@ -541,6 +464,13 @@ codeunit 123456777 "Seminar Mgt. Posting (1) ASD"
         SeminarPost: Codeunit "Seminar-Post ASD";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
+        SeminarPost.Run(SeminarRegistrationHeader);
+    end;
+
+    local procedure PostSeminarRegistration(SeminarRegistrationHeader: Record "Sem. Registration Header ASD")
+    var
+        SeminarPost: Codeunit "Seminar-Post ASD";
+    begin
         SeminarPost.Run(SeminarRegistrationHeader);
     end;
 

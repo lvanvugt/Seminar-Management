@@ -1,6 +1,6 @@
 codeunit 123456775 "Seminar Mgt. Setup ASD"
 {
-    // [FEATURE] [Seminar Management - Configuration]
+    // [FEATURE] [Seminar Management][Configuration]
 
     Subtype = Test;
     TestPermissions = Disabled;

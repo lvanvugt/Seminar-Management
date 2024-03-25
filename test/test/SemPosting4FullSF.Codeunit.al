@@ -1,4 +1,4 @@
-codeunit 123456778 "Seminar Mgt. Posting (2) ASD"
+codeunit 123456763 "Sem. Posting (4) Full SF ASD"
 {
     // [FEATURE][Seminar Management][Posting]
 
@@ -32,15 +32,15 @@ codeunit 123456778 "Seminar Mgt. Posting (2) ASD"
         VerifySeminarRegistrationIsRemoved(SeminarRegistrationNo);
         // [THEN] Posted seminar registration exists
         VerifyPostedSeminarRegistrationExists(PostingNo);
-        //[THEN] Customer related seminar ledger entry exists
+        // [THEN] Customer related seminar ledger entry exists
         VerifyCustomerRelatedSeminarLedgerEntryExists(PostingNo, CustomerNo, ParticipantNo);
-        //[THEN] Instructor related seminar ledger entry exists
+        // [THEN] Instructor related seminar ledger entry exists
         VerifyInstructorRelatedSeminarLedgerEntryExists(PostingNo, InstructorResourceNo);
-        //[THEN] Room related seminar ledger entry exists
+        // [THEN] Room related seminar ledger entry exists
         VerifyRoomRelatedSeminarLedgerEntryExists(PostingNo, RoomResourceNo);
-        //[THEN] Instructor related resource ledger entry exists
+        // [THEN] Instructor related resource ledger entry exists
         VerifyInstructorRelatedResourceLedgerEntryExists(PostingNo, InstructorResourceNo);
-        //[THEN] Room related resource ledger entry exists
+        // [THEN] Room related resource ledger entry exists
         VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, RoomResourceNo);
     end;
 
@@ -68,15 +68,15 @@ codeunit 123456778 "Seminar Mgt. Posting (2) ASD"
         VerifySeminarRegistrationIsRemoved(SeminarRegistrationNo);
         // [THEN] Posted seminar registration exists
         VerifyPostedSeminarRegistrationExists(PostingNo);
-        //[THEN] Customer related seminar ledger entry exists
+        // [THEN] Customer related seminar ledger entry exists
         VerifyCustomerRelatedSeminarLedgerEntryExists(PostingNo, CustomerNo, ParticipantNo);
-        //[THEN] Instructor related seminar ledger entry exists
+        // [THEN] Instructor related seminar ledger entry exists
         VerifyInstructorRelatedSeminarLedgerEntryExists(PostingNo, InstructorResourceNo);
-        //[THEN] Room related seminar ledger entry exists
+        // [THEN] Room related seminar ledger entry exists
         VerifyRoomRelatedSeminarLedgerEntryExists(PostingNo, RoomResourceNo);
-        //[THEN] Instructor related resource ledger entry exists
+        // [THEN] Instructor related resource ledger entry exists
         VerifyInstructorRelatedResourceLedgerEntryExists(PostingNo, InstructorResourceNo);
-        //[THEN] Room related resource ledger entry exists
+        // [THEN] Room related resource ledger entry exists
         VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, RoomResourceNo);
     end;
 
@@ -285,12 +285,12 @@ codeunit 123456778 "Seminar Mgt. Posting (2) ASD"
     var
         LibraryTestInitialize: Codeunit "Library - Test Initialize";
     begin
-        LibraryTestInitialize.OnTestInitialize(Codeunit::"Seminar Mgt. Posting (1) ASD");
+        LibraryTestInitialize.OnTestInitialize(Codeunit::"Sem. Posting (4) Full SF ASD");
 
         if isInitialized then
             exit;
 
-        LibraryTestInitialize.OnBeforeTestSuiteInitialize(Codeunit::"Seminar Mgt. Posting (1) ASD");
+        LibraryTestInitialize.OnBeforeTestSuiteInitialize(Codeunit::"Sem. Posting (4) Full SF ASD");
 
         SeminarMgtLibraryInitialize.Initialize();
         // [GIVEN] Seminar
@@ -299,15 +299,15 @@ codeunit 123456778 "Seminar Mgt. Posting (2) ASD"
         InstructorResourceNo := CreateInstructorResource();
         // [GIVEN] Room resource
         RoomResourceNo := CreateRoomResource();
-        //[GIVEN] Customer with company contact
+        // [GIVEN] Customer with company contact
         CustomerNo := CreateCustomerWithCompanyContact();
-        //[GIVEN] Person contact for customer
+        // [GIVEN] Person contact for customer
         ParticipantNo := CreatePersonContactForCustomer(CustomerNo);
 
         Commit();
         isInitialized := true;
 
-        LibraryTestInitialize.OnAfterTestSuiteInitialize(Codeunit::"Seminar Mgt. Posting (1) ASD");
+        LibraryTestInitialize.OnAfterTestSuiteInitialize(Codeunit::"Sem. Posting (4) Full SF ASD");
     end;
 
     #region GIVEN helper methods

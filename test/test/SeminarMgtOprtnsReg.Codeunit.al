@@ -1,6 +1,6 @@
 codeunit 123456776 "Seminar Mgt. Oprtns. Reg. ASD"
 {
-    // [FEATURE] [Seminar Management - Operation]
+    // [FEATURE] [Seminar Management][Operation]
 
     Subtype = Test;
     TestPermissions = Disabled;
