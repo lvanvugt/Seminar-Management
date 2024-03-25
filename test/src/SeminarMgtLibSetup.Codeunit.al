@@ -26,17 +26,17 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
     begin
         if not Seminar.Get() then begin
             Seminar.Insert(true);
-            Seminar.Validate(Name, Seminar."No.");
+            Seminar.Name := Seminar."No.";
             Seminar."Duration" := LibraryRandom.RandInt(5);
             Seminar."Minimum Participants" := LibraryRandom.RandInt(5);
             Seminar."Maximum Participants" := LibraryRandom.RandIntInRange(Seminar."Minimum Participants", 20);
             Seminar.Price := LibraryRandom.RandInt(100);
 
             CreateGeneralPostingSetup(GeneralPostingSetup);
-            Seminar.Validate("Gen. Prod. Posting Group", GeneralPostingSetup."Gen. Prod. Posting Group");
+            Seminar."Gen. Prod. Posting Group" := GeneralPostingSetup."Gen. Prod. Posting Group";
 
             CreateVATPostingSetup(VATPostingSetup);
-            Seminar.Validate("VAT Prod. Posting Group", VATPostingSetup."VAT Prod. Posting Group");
+            Seminar."VAT Prod. Posting Group" := VATPostingSetup."VAT Prod. Posting Group";
 
             Seminar.Modify(true);
         end;
@@ -100,7 +100,7 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
     begin
         if not Resource.Get() then begin
             Resource.Insert(true);
-            Resource.Validate(Name, Resource."No.");
+            Resource.Name := Resource."No.";
             Resource."Type" := NewType;
             Resource."Quantity per Day ASD" := LibraryRandom.RandInt(100);
             Resource."Base Unit of Measure" := CreateResourceUOM(Resource."No.");
@@ -159,9 +159,9 @@ codeunit 123456771 "Seminar Mgt. Lib. Setup ASD"
         LibraryERM.FindVATBusinessPostingGroup(VATBusinessPostingGroup);
 
         LibraryERM.CreateVATPostingSetup(VATPostingSetup, VATBusinessPostingGroup.Code, VATProductPostingGroup.Code);
-        VATPostingSetup.Validate("VAT Identifier", VATPostingSetup."VAT Prod. Posting Group");
-        VATPostingSetup.Validate("VAT %", LibraryRandom.RandDec(10, 2));
-        VATPostingSetup.Validate("VAT Calculation Type", VATPostingSetup."VAT Calculation Type"::"Normal VAT");
+        VATPostingSetup."VAT Identifier" := VATPostingSetup."VAT Prod. Posting Group";
+        VATPostingSetup."VAT %" := LibraryRandom.RandDec(10, 2);
+        VATPostingSetup."VAT Calculation Type" := VATPostingSetup."VAT Calculation Type"::"Normal VAT";
         VATPostingSetup.Modify(true);
     end;
 }
