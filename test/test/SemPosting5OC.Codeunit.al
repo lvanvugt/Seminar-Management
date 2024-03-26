@@ -392,8 +392,8 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
         SeminarMgtLibraryOperations.CreateSeminarRegistration(SeminarRegistrationHeader);
 
         SeminarRegistrationHeader.Validate("Seminar No.", SeminarNo);
-        SeminarRegistrationHeader."Instructor Resource No." := InstructorNo;
-        SeminarRegistrationHeader."Room Resource No." := RoomNo;
+        SeminarRegistrationHeader.Validate("Instructor Resource No.", InstructorNo);
+        SeminarRegistrationHeader.Validate("Room Resource No.", RoomNo);
         SeminarRegistrationHeader.Modify();
 
         exit(SeminarRegistrationHeader."No.");
@@ -436,11 +436,11 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
 
     local procedure SetMandatoryFieldsOnSeminarRegistrationHeader(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD"; NewStatus: Enum "Seminar Document Status ASD"; NewPostingDate: Date; NewDocumentDate: Date; NewSeminarNo: Code[20]; NewDuration: Duration; NewInstructorResourceNo: Code[20]; NewRoomResourceNo: Code[20])
     begin
-        SeminarRegistrationHeader.Status := NewStatus;
-        SeminarRegistrationHeader."Posting Date" := NewPostingDate;
-        SeminarRegistrationHeader."Document Date" := NewDocumentDate;
+        SeminarRegistrationHeader.Validate(Status, NewStatus);
+        SeminarRegistrationHeader.Validate("Posting Date", NewPostingDate);
+        SeminarRegistrationHeader.Validate("Document Date", NewDocumentDate);
         SeminarRegistrationHeader."Seminar No." := NewSeminarNo;
-        SeminarRegistrationHeader.Duration := NewDuration;
+        SeminarRegistrationHeader.Validate(Duration, NewDuration);
         SeminarRegistrationHeader."Instructor Resource No." := NewInstructorResourceNo;
         SeminarRegistrationHeader."Room Resource No." := NewRoomResourceNo;
     end;
@@ -480,8 +480,8 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
         LibraryUtility: Codeunit "Library - Utility";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader.Status := NewStatus;
-        SeminarRegistrationHeader."Posting No." := LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D);
+        SeminarRegistrationHeader.Validate(Status, NewStatus);
+        SeminarRegistrationHeader.Validate("Posting No.", LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D));
         SeminarRegistrationHeader.Modify();
         exit(SeminarRegistrationHeader."Posting No.");
     end;

@@ -461,8 +461,8 @@ codeunit 123456762 "Sem. Posting (3) Full NC ASD"
         SeminarMgtLibraryOperations.CreateSeminarRegistration(SeminarRegistrationHeader);
 
         SeminarRegistrationHeader.Validate("Seminar No.", SeminarNo);
-        SeminarRegistrationHeader."Instructor Resource No." := InstructorNo;
-        SeminarRegistrationHeader."Room Resource No." := RoomNo;
+        SeminarRegistrationHeader.Validate("Instructor Resource No.", InstructorNo);
+        SeminarRegistrationHeader.Validate("Room Resource No.", RoomNo);
         SeminarRegistrationHeader.Modify();
 
         exit(SeminarRegistrationHeader."No.");
@@ -473,7 +473,7 @@ codeunit 123456762 "Sem. Posting (3) Full NC ASD"
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader."Posting Date" := 0D;
+        SeminarRegistrationHeader.Validate("Posting Date", 0D);
         SeminarRegistrationHeader.Modify();
     end;
 
@@ -482,7 +482,7 @@ codeunit 123456762 "Sem. Posting (3) Full NC ASD"
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader."Document Date" := 0D;
+        SeminarRegistrationHeader.Validate("Document Date", 0D);
         SeminarRegistrationHeader.Modify();
     end;
 
@@ -500,7 +500,7 @@ codeunit 123456762 "Sem. Posting (3) Full NC ASD"
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader.Duration := 0;
+        SeminarRegistrationHeader.Validate(Duration, 0);
         SeminarRegistrationHeader.Modify();
     end;
 
@@ -509,7 +509,7 @@ codeunit 123456762 "Sem. Posting (3) Full NC ASD"
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader."Instructor Resource No." := '';
+        SeminarRegistrationHeader.Validate("Instructor Resource No.", '');
         SeminarRegistrationHeader.Modify();
     end;
 
@@ -518,7 +518,7 @@ codeunit 123456762 "Sem. Posting (3) Full NC ASD"
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader."Room Resource No." := '';
+        SeminarRegistrationHeader.Validate("Room Resource No.", '');
         SeminarRegistrationHeader.Modify();
     end;
     #endregion GIVEN helper methods
@@ -550,8 +550,8 @@ codeunit 123456762 "Sem. Posting (3) Full NC ASD"
         LibraryUtility: Codeunit "Library - Utility";
     begin
         SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationHeader.Status := NewStatus;
-        SeminarRegistrationHeader."Posting No." := LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D);
+        SeminarRegistrationHeader.Validate(Status, NewStatus);
+        SeminarRegistrationHeader.Validate("Posting No.", LibraryUtility.GetNextNoFromNoSeries(SeminarRegistrationHeader."Posting No. Series", 0D));
         SeminarRegistrationHeader.Modify();
         exit(SeminarRegistrationHeader."Posting No.");
     end;
