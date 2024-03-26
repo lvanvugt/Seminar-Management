@@ -33,15 +33,15 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
         // [THEN] Posted seminar registration exists
         VerifyPostedSeminarRegistrationExists(PostingNo);
         // [THEN] Customer related seminar ledger entry exists
-        VerifyCustomerRelatedSeminarLedgerEntryExists(PostingNo, CustomerNo, ParticipantNo);
+        VerifyCustomerRelatedSeminarLedgerEntryExists(PostingNo, SeminarNo, CustomerNo, ParticipantNo);
         // [THEN] Instructor related seminar ledger entry exists
-        VerifyInstructorRelatedSeminarLedgerEntryExists(PostingNo, InstructorResourceNo);
+        VerifyInstructorRelatedSeminarLedgerEntryExists(PostingNo, SeminarNo, InstructorResourceNo);
         // [THEN] Room related seminar ledger entry exists
-        VerifyRoomRelatedSeminarLedgerEntryExists(PostingNo, RoomResourceNo);
+        VerifyRoomRelatedSeminarLedgerEntryExists(PostingNo, SeminarNo, RoomResourceNo);
         // [THEN] Instructor related resource ledger entry exists
-        VerifyInstructorRelatedResourceLedgerEntryExists(PostingNo, InstructorResourceNo);
+        VerifyInstructorRelatedResourceLedgerEntryExists(PostingNo, SeminarNo, InstructorResourceNo);
         // [THEN] Room related resource ledger entry exists
-        VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, RoomResourceNo);
+        VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, SeminarNo, RoomResourceNo);
     end;
 
     [Test]
@@ -69,15 +69,15 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
         // [THEN] Posted seminar registration exists
         VerifyPostedSeminarRegistrationExists(PostingNo);
         // [THEN] Customer related seminar ledger entry exists
-        VerifyCustomerRelatedSeminarLedgerEntryExists(PostingNo, CustomerNo, ParticipantNo);
+        VerifyCustomerRelatedSeminarLedgerEntryExists(PostingNo, SeminarNo, CustomerNo, ParticipantNo);
         // [THEN] Instructor related seminar ledger entry exists
-        VerifyInstructorRelatedSeminarLedgerEntryExists(PostingNo, InstructorResourceNo);
+        VerifyInstructorRelatedSeminarLedgerEntryExists(PostingNo, SeminarNo, InstructorResourceNo);
         // [THEN] Room related seminar ledger entry exists
-        VerifyRoomRelatedSeminarLedgerEntryExists(PostingNo, RoomResourceNo);
+        VerifyRoomRelatedSeminarLedgerEntryExists(PostingNo, SeminarNo, RoomResourceNo);
         // [THEN] Instructor related resource ledger entry exists
-        VerifyInstructorRelatedResourceLedgerEntryExists(PostingNo, InstructorResourceNo);
+        VerifyInstructorRelatedResourceLedgerEntryExists(PostingNo, SeminarNo, InstructorResourceNo);
         // [THEN] Room related resource ledger entry exists
-        VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, RoomResourceNo);
+        VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, SeminarNo, RoomResourceNo);
     end;
 
     [Test]
@@ -504,49 +504,53 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
         Assert.RecordIsNotEmpty(PostedSeminarRegHeader);
     end;
 
-    local procedure VerifyCustomerRelatedSeminarLedgerEntryExists(PostingNo: Code[20]; CustomerNo: Code[20]; ParticipantNo: Code[20])
+    local procedure VerifyCustomerRelatedSeminarLedgerEntryExists(PostingNo: Code[20]; SeminarNo: Code[20]; CustomerNo: Code[20]; ParticipantNo: Code[20])
     var
         SeminarLedgerEntry: Record "Seminar Ledger Entry ASD";
     begin
         SeminarLedgerEntry.SetRange("Document No.", PostingNo);
+        SeminarLedgerEntry.SetRange("Seminar No.", SeminarNo);
         SeminarLedgerEntry.SetRange("Bill-to Customer No.", CustomerNo);
         SeminarLedgerEntry.SetRange("Participant Contact No.", ParticipantNo);
         Assert.RecordCount(SeminarLedgerEntry, 1);
     end;
 
-    local procedure VerifyInstructorRelatedSeminarLedgerEntryExists(PostingNo: Code[20]; InstructorResourceNo: Code[20])
+    local procedure VerifyInstructorRelatedSeminarLedgerEntryExists(PostingNo: Code[20]; SeminarNo: Code[20]; InstructorResourceNo: Code[20])
     var
         SeminarLedgerEntry: Record "Seminar Ledger Entry ASD";
     begin
         SeminarLedgerEntry.SetRange("Document No.", PostingNo);
+        SeminarLedgerEntry.SetRange("Seminar No.", SeminarNo);
         SeminarLedgerEntry.SetRange("Instructor Resource No.", InstructorResourceNo);
         Assert.RecordCount(SeminarLedgerEntry, 1);
     end;
 
-    local procedure VerifyRoomRelatedSeminarLedgerEntryExists(PostingNo: Code[20]; RoomResourceNo: Code[20])
+    local procedure VerifyRoomRelatedSeminarLedgerEntryExists(PostingNo: Code[20]; SeminarNo: Code[20]; RoomResourceNo: Code[20])
     var
         SeminarLedgerEntry: Record "Seminar Ledger Entry ASD";
     begin
         SeminarLedgerEntry.SetRange("Document No.", PostingNo);
+        SeminarLedgerEntry.SetRange("Seminar No.", SeminarNo);
         SeminarLedgerEntry.SetRange("Room Resource No.", RoomResourceNo);
         Assert.RecordCount(SeminarLedgerEntry, 1);
     end;
 
-    local procedure VerifyInstructorRelatedResourceLedgerEntryExists(PostingNo: Code[20]; InstructorResourceNo: Code[20])
+    local procedure VerifyInstructorRelatedResourceLedgerEntryExists(PostingNo: Code[20]; SeminarNo: Code[20]; InstructorResourceNo: Code[20])
     begin
-        VerifyResourceRelatedResourceLedgerEntryExists(PostingNo, InstructorResourceNo);
+        VerifyResourceRelatedResourceLedgerEntryExists(PostingNo, SeminarNo, InstructorResourceNo);
     end;
 
-    local procedure VerifyRoomRelatedResourceLedgerEntryExist(PostingNo: Code[20]; RoomResourceNo: Code[20])
+    local procedure VerifyRoomRelatedResourceLedgerEntryExist(PostingNo: Code[20]; SeminarNo: Code[20]; RoomResourceNo: Code[20])
     begin
-        VerifyResourceRelatedResourceLedgerEntryExists(PostingNo, RoomResourceNo);
+        VerifyResourceRelatedResourceLedgerEntryExists(PostingNo, SeminarNo, RoomResourceNo);
     end;
 
-    local procedure VerifyResourceRelatedResourceLedgerEntryExists(PostingNo: Code[20]; ResourceNo: Code[20])
+    local procedure VerifyResourceRelatedResourceLedgerEntryExists(PostingNo: Code[20]; SeminarNo: Code[20]; ResourceNo: Code[20])
     var
         ResourceLedgerEntry: Record "Res. Ledger Entry";
     begin
         ResourceLedgerEntry.SetRange("Document No.", PostingNo);
+        ResourceLedgerEntry.SetRange("Seminar No. ASD", SeminarNo);
         ResourceLedgerEntry.SetRange("Resource No.", ResourceNo);
         Assert.RecordCount(ResourceLedgerEntry, 1);
     end;
