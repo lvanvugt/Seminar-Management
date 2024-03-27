@@ -2,6 +2,8 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
 {
     // [FEATURE][Seminar Management][Posting]
 
+    // Optimized implementation of scenarios as defined in ATDD sheet for Seminar Posting to minimize data setup
+
     Subtype = Test;
     TestPermissions = Disabled;
 

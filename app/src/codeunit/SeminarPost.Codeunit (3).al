@@ -70,7 +70,7 @@ codeunit 123456720 "Seminar-Post ASD"
         InitProgressWindow(SeminarRegistrationHeader2."No.");
 
         // Test Far
-        // TODO: testable unit
+        // TODO: testable unit - DONE
         SeminarRegistrationLine2.Reset();
         SeminarRegistrationLine2.SetRange("Document No.", SeminarRegistrationHeader2."No.");
         if SeminarRegistrationLine2.IsEmpty() then
@@ -91,7 +91,7 @@ codeunit 123456720 "Seminar-Post ASD"
         InsertPostedSeminarRegHeader(SeminarRegistrationHeader2);
     end;
 
-    // TODO: testable unit
+    // TODO: testable unit - DONE
     local procedure CheckMandatoryHeaderFields(SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
     begin
         SeminarRegistrationHeader2.TestField(Status, SeminarRegistrationHeader2.Status::Closed);
@@ -207,7 +207,7 @@ codeunit 123456720 "Seminar-Post ASD"
         PstdSeminarRegLine.Insert();
     end;
 
-    // TODO: testable unit
+    // TODO: testable unit - DONE
     local procedure PostSeminarJnlLine(ChargeType: Enum "Seminar Journal Charge Type ASD"): Integer
     var
         SeminarJnlLine: Record "Seminar Journal Line ASD";
@@ -290,7 +290,7 @@ codeunit 123456720 "Seminar-Post ASD"
         SeminarJournalLine."Resource Ledger Entry No." := PostResJnlLine(Room);
     end;
 
-    // TODO: testable unit
+    // TODO: testable unit - DONE
     local procedure PostResJnlLine(Resource: Record Resource): Integer
     var
         ResJnlLine: Record "Res. Journal Line";
@@ -388,7 +388,7 @@ codeunit 123456720 "Seminar-Post ASD"
     end;
 
     // ASD8.03<
-    // TODO: testable unit
+    // TODO: testable unit - POSTPONE
     local procedure CheckDim()
     var
         SeminarRegLine2: Record "Seminar Registration Line ASD";
@@ -405,7 +405,7 @@ codeunit 123456720 "Seminar-Post ASD"
             until SeminarRegLine2.Next() = 0;
     end;
 
-    // TODO: testable unit
+    // TODO: testable unit - POSTPONE
     local procedure CheckDimComb(SeminarRegistrationLine: Record "Seminar Registration Line ASD");
     var
         DimensionManagement: Codeunit DimensionManagement;
@@ -426,7 +426,7 @@ codeunit 123456720 "Seminar-Post ASD"
                     DimensionManagement.GetDimCombErr());
     end;
 
-    // TODO: testable unit
+    // TODO: testable unit - POSTPONE
     local procedure CheckDimValuePosting(var SeminarRegLine2: Record "Seminar Registration Line ASD");
     var
         DimensionManagement: Codeunit DimensionManagement;

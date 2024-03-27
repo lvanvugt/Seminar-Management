@@ -2,6 +2,8 @@ codeunit 123456761 "Sem. Posting (2) Full GC ASD"
 {
     // [FEATURE][Seminar Management][Posting]
 
+    // Full implementation of scenarios as defined in ATDD sheet for Seminar Posting including generic cleanup (GC) of existing data
+
     Subtype = Test;
     TestPermissions = Disabled;
 
