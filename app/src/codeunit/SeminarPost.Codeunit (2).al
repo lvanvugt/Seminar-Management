@@ -14,6 +14,7 @@ codeunit 123456720 "Seminar-Post ASD"
         SeminarCharge: Record "Seminar Charge ASD";
         PstdSeminarRegistrationHeader: Record "Posted Sem. Reg. Header ASD";
         ResJnlPostLine: Codeunit "Res. Jnl.-Post Line";
+        RegistrationTesterASD: Codeunit RegistrationTesterASD;
         SeminarJnlPostLine: Codeunit "Seminar Jnl.-Post Line ASD";
         Window: Dialog;
         SourceCode: Code[10];
@@ -61,9 +62,11 @@ codeunit 123456720 "Seminar-Post ASD"
     local procedure CheckAndUpdate(var SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
     var
         SourceCodeSetup: Record "Source Code Setup";
+        RegistrationHeader_ASD: Codeunit RegistrationHeader_ASD;
     begin
         // Test Near
-        CheckMandatoryHeaderFields(SeminarRegistrationHeader2);
+        RegistrationHeader_ASD.PopulateFromSeminarRegistrationHeader(SeminarRegistrationHeader2);
+        RegistrationTesterASD.CheckMandatoryHeaderFields(RegistrationHeader_ASD);
 
         InitProgressWindow(SeminarRegistrationHeader2."No.");
 
@@ -83,17 +86,6 @@ codeunit 123456720 "Seminar-Post ASD"
         SourceCode := SourceCodeSetup."Seminar ASD";
 
         InsertPostedSeminarRegHeader(SeminarRegistrationHeader2);
-    end;
-
-    procedure CheckMandatoryHeaderFields(SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
-    begin
-        SeminarRegistrationHeader2.TestField(Status, SeminarRegistrationHeader2.Status::Closed);
-        SeminarRegistrationHeader2.TestField("Posting Date");
-        SeminarRegistrationHeader2.TestField("Document Date");
-        SeminarRegistrationHeader2.TestField("Seminar No.");
-        SeminarRegistrationHeader2.TestField(Duration);
-        SeminarRegistrationHeader2.TestField("Instructor Resource No.");
-        SeminarRegistrationHeader2.TestField("Room Resource No.");
     end;
 
     local procedure InitProgressWindow(SeminarRegistrationHeaderNo: Code[20]);
@@ -161,6 +153,7 @@ codeunit 123456720 "Seminar-Post ASD"
 
     local procedure PostLines()
     var
+        RegistrationLineASD: Codeunit RegistrationLineASD;
         LineCount: Integer;
     begin
         SeminarRegistrationLine.LockTable();
@@ -171,8 +164,8 @@ codeunit 123456720 "Seminar-Post ASD"
             repeat
                 LineCount := LineCount + 1;
                 Window.Update(2, LineCount);
-
-                VerifySeminarRegLineForPosting(SeminarRegistrationLine);
+                RegistrationLineASD.PopulateFromSeminarRegistrationLine(SeminarRegistrationLine);
+                RegistrationTesterASD.VerifyRegLineForPosting(RegistrationLineASD);
 
                 if not SeminarRegistrationLine."To Invoice" then begin
                     SeminarRegistrationLine.Price := 0;
@@ -450,21 +443,12 @@ codeunit 123456720 "Seminar-Post ASD"
         end;
     end;
 
-    procedure VerifySeminarRegLineForPosting(SeminarRegistrationLineLocal: Record "Seminar Registration Line ASD")
-
-    begin
-        SeminarRegistrationLineLocal.TestField("Bill-to Customer No.");
-        SeminarRegistrationLineLocal.TestField("Participant Contact No.");
-    end;
-
-    procedure VerifySeminarLinesExists(var SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
+    local procedure VerifySeminarLinesExists(var SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
     var
         SeminarRegistrationLine2: Record "Seminar Registration Line ASD";
-        NothingToPostErr: Label 'There is nothing to post.';
     begin
         SeminarRegistrationLine2.SetRange("Document No.", SeminarRegistrationHeader2."No.");
-        if SeminarRegistrationLine2.IsEmpty() then
-            Error(NothingToPostErr);
+        RegistrationTesterASD.HandleLinesExists(SeminarRegistrationLine2.IsEmpty());
     end;
     // ASD8.03<
 }
