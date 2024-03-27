@@ -2,6 +2,8 @@ codeunit 123456762 "Sem. Posting (3) Full NC ASD"
 {
     // [FEATURE][Seminar Management][Posting]
 
+    // Full implementation of scenarios as defined in ATDD sheet for Seminar Posting with no cleanup (NC)
+
     Subtype = Test;
     TestPermissions = Disabled;
 

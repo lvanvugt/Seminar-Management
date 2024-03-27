@@ -2,6 +2,8 @@ codeunit 123456763 "Sem. Posting (4) Full SF ASD"
 {
     // [FEATURE][Seminar Management][Posting]
 
+    // Full implementation of scenarios as defined in ATDD sheet for Seminar Posting promoted data setup to shared fixture (SF)
+
     Subtype = Test;
     TestPermissions = Disabled;
 
