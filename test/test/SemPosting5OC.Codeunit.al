@@ -87,7 +87,7 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO #0401] Post non-closed seminar registration
+        // [SCENARIO 0401] Post non-closed seminar registration
         // [GIVEN] Seminar
         // [GIVEN] Instructor resource
         // [GIVEN] Room resource
@@ -112,7 +112,7 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO #0402] Post closed seminar registration with empty posting date
+        // [SCENARIO 0402] Post closed seminar registration with empty posting date
         // [GIVEN] Seminar
         // [GIVEN] Instructor resource
         // [GIVEN] Room resource
@@ -137,7 +137,7 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO #0403] Post closed seminar registration with empty document date
+        // [SCENARIO 0403] Post closed seminar registration with empty document date
         // [GIVEN] Seminar
         // [GIVEN] Instructor resource
         // [GIVEN] Room resource
@@ -162,7 +162,7 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO #0404] Post closed seminar registration with empty seminar number
+        // [SCENARIO 0404] Post closed seminar registration with empty seminar number
         // [GIVEN] Seminar
         // [GIVEN] Instructor resource
         // [GIVEN] Room resource
@@ -187,7 +187,7 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO #0405] Post closed seminar registration with empty duration
+        // [SCENARIO 0405] Post closed seminar registration with empty duration
         // [GIVEN] Seminar
         // [GIVEN] Instructor resource
         // [GIVEN] Room resource
@@ -212,7 +212,7 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO #0406] Post closed seminar registration with empty instructor resource number
+        // [SCENARIO 0406] Post closed seminar registration with empty instructor resource number
         // [GIVEN] Seminar
         // [GIVEN] Instructor resource
         // [GIVEN] Room resource
@@ -237,7 +237,7 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     begin
-        // [SCENARIO #0407] Post closed seminar registration with empty room resource number
+        // [SCENARIO 0407] Post closed seminar registration with empty room resource number
         // [GIVEN] Seminar
         // [GIVEN] Instructor resource
         // [GIVEN] Room resource
@@ -263,7 +263,7 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
     // SeminarRegistrationNo: Code[20];
     begin
-        // [SCENARIO #0408] Post closed seminar registration with no participant line
+        // [SCENARIO 0408] Post closed seminar registration with no participant line
         // [GIVEN] Seminar
         // [GIVEN] Instructor resource
         // [GIVEN] Room resource
@@ -271,7 +271,7 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
         // [WHEN] Post seminar registration
         // [THEN] Nothing to post error thrown
 
-        // [SCENARIO #0408-optimized] Post closed seminar registration with no participant line
+        // [SCENARIO 0408-optimized] Post closed seminar registration with no participant line
         // [GIVEN] Closed seminar registration header
         ClosedSeminarRegistrationHeader(SeminarRegistrationHeader);
 
