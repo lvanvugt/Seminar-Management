@@ -365,6 +365,63 @@ codeunit 123456762 "Sem. Posting (3) Full NC ASD"
         // [THEN] Nothing to post error thrown
         VerifyNothingToPostErrorThrown();
     end;
+
+    [Test]
+    procedure PostClosedSeminarRegistrationWithParticipantLineWithEmptyBillToCustomerNumber()
+    var
+        InstructorResourceNo: Code[20];
+        RoomResourceNo: Code[20];
+        SeminarNo: Code[20];
+        SeminarRegistrationNo: Code[20];
+    begin
+        //[SCENARIO #0409] Post closed seminar registration with participant line with empty bill-to customer number
+        Initialize();
+        //[GIVEN] Seminar
+        SeminarNo := CreateSeminar();
+        //[GIVEN] Instructor resource
+        InstructorResourceNo := CreateInstructorResource();
+        //[GIVEN] Room resource
+        RoomResourceNo := CreateRoomResource();
+        //[GIVEN] Closed seminar registration with one participant line with empty bill-to customer number
+        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, '', '');
+        SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
+
+        //[WHEN] Post seminar registration
+        asserterror PostSeminarRegistration(SeminarRegistrationNo);
+
+        // [THEN] Bill-to customer number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Bill-to Customer No.');
+    end;
+
+    [Test]
+    procedure PostClosedSeminarRegistrationWithParticipantLineWithEmptyParticipantNumber()
+    var
+        CustomerNo: Code[20];
+        InstructorResourceNo: Code[20];
+        RoomResourceNo: Code[20];
+        SeminarNo: Code[20];
+        SeminarRegistrationNo: Code[20];
+    begin
+        //[SCENARIO #0410] Post closed seminar registration with participant line with empty bill-to customer number
+        Initialize();
+        //[GIVEN] Seminar
+        SeminarNo := CreateSeminar();
+        //[GIVEN] Instructor resource
+        InstructorResourceNo := CreateInstructorResource();
+        //[GIVEN] Room resource
+        RoomResourceNo := CreateRoomResource();
+        //[GIVEN] Customer with company contact
+        CustomerNo := CreateCustomerWithCompanyContact();
+        //[GIVEN] Closed seminar registration with one participant line with empty participant contact number
+        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, '');
+        SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
+
+        //[WHEN] Post seminar registration
+        asserterror PostSeminarRegistration(SeminarRegistrationNo);
+
+        // [THEN] Participant number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Participant Contact No.');
+    end;
     #endregion Test Methods
 
     var

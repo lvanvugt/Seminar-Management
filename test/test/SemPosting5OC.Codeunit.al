@@ -281,6 +281,49 @@ codeunit 123456764 "Sem. Posting (5) OC ASD"
         // [THEN] Nothing to post error thrown
         VerifyNothingToPostErrorThrown();
     end;
+
+    [Test]
+    procedure PostClosedSeminarRegistrationWithParticipantLineWithEmptyBillToCustomerNumber()
+    var
+        SeminarRegistrationNo: Code[20];
+    begin
+        //[SCENARIO #0409] Post closed seminar registration with participant line with empty bill-to customer number
+        //[GIVEN] Seminar
+        //[GIVEN] Instructor resource
+        //[GIVEN] Room resource
+        Initialize();
+        //[GIVEN] Closed seminar registration with one participant line with empty bill-to customer number
+        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, '', '');
+        SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
+
+        //[WHEN] Post seminar registration
+        asserterror PostSeminarRegistration(SeminarRegistrationNo);
+
+        // [THEN] Bill-to customer number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Bill-to Customer No.');
+    end;
+
+    [Test]
+    procedure PostClosedSeminarRegistrationWithParticipantLineWithEmptyParticipantNumber()
+    var
+        SeminarRegistrationNo: Code[20];
+    begin
+        //[SCENARIO #0410] Post closed seminar registration with participant line with empty bill-to customer number
+        //[GIVEN] Seminar
+        //[GIVEN] Instructor resource
+        //[GIVEN] Room resource
+        //[GIVEN] Customer with company contact
+        Initialize();
+        //[GIVEN] Closed seminar registration with one participant line with empty participant contact number
+        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, '');
+        SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
+
+        //[WHEN] Post seminar registration
+        asserterror PostSeminarRegistration(SeminarRegistrationNo);
+
+        // [THEN] Participant number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Participant Contact No.');
+    end;
     #endregion Test Methods
 
     var

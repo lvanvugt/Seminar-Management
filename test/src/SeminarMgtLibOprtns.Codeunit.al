@@ -27,11 +27,14 @@ codeunit 123456772 "Seminar Mgt. Lib. Oprtns. ASD"
         SeminarRegistrationLine.Init();
         SeminarRegistrationLine."Line No." := SeminarRegistrationLine."Line No." + 10000;
 
-        SeminarRegistrationLine.Validate("Bill-to Customer No.", CustomerNo);
-        SeminarRegistrationLine.Validate("Participant Contact No.", ParticipantNo);
+        if CustomerNo <> '' then
+            SeminarRegistrationLine.Validate("Bill-to Customer No.", CustomerNo);
+        if ParticipantNo <> '' then
+            SeminarRegistrationLine.Validate("Participant Contact No.", ParticipantNo);
 
         SeminarRegistrationLine.Validate("Line Discount %", Any.IntegerInRange(25));
-        SeminarRegistrationLine.Insert(true);
+
+        SeminarRegistrationLine.Insert();
     end;
 
     procedure CreatePersonContactWithCompany(CompanyNo: Code[20]): Code[20]
