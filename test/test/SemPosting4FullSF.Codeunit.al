@@ -8,6 +8,7 @@ codeunit 123456763 "Sem. Posting (4) Full SF ASD"
     TestPermissions = Disabled;
 
     #region Test Methods
+#if include_sunny_path
     [Test]
     [HandlerFunctions('ConfirmHandlerYes')]
     procedure PostClosedSeminarRegistrationFromSeminarRegistrationList()
@@ -81,7 +82,7 @@ codeunit 123456763 "Sem. Posting (4) Full SF ASD"
         // [THEN] Room related resource ledger entry exists
         VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, SeminarNo, RoomResourceNo);
     end;
-
+#endif
     [Test]
     procedure PostNonClosedSeminarRegistration()
     var

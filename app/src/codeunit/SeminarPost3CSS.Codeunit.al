@@ -61,7 +61,6 @@ codeunit 123456720 "Seminar-Post ASD"
 
     local procedure CheckAndUpdate(var SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
     var
-        SeminarRegistrationLine2: Record "Seminar Registration Line ASD";
         SourceCodeSetup: Record "Source Code Setup";
     begin
         // Test Near
@@ -70,11 +69,7 @@ codeunit 123456720 "Seminar-Post ASD"
         InitProgressWindow(SeminarRegistrationHeader2."No.");
 
         // Test Far
-        // TODO: testable unit - DONE
-        SeminarRegistrationLine2.Reset();
-        SeminarRegistrationLine2.SetRange("Document No.", SeminarRegistrationHeader2."No.");
-        if SeminarRegistrationLine2.IsEmpty() then
-            Error(NothingToPostErr);
+        CheckSeminarLinesExist(SeminarRegistrationHeader2); // TODO: testable unit reference
 
         // ASD8.03>
         CheckDim(); // TODO: testable unit reference
@@ -92,7 +87,7 @@ codeunit 123456720 "Seminar-Post ASD"
     end;
 
     // TODO: testable unit - DONE
-    local procedure CheckMandatoryHeaderFields(SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
+    procedure CheckMandatoryHeaderFields(SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
     begin
         SeminarRegistrationHeader2.TestField(Status, SeminarRegistrationHeader2.Status::Closed);
         SeminarRegistrationHeader2.TestField("Posting Date");
@@ -112,7 +107,14 @@ codeunit 123456720 "Seminar-Post ASD"
         Window.Update(1, StrSubstNo('%1 %2', RegistrationMsg, SeminarRegistrationHeaderNo));
     end;
 
-    // TODO: testable unit
+    // TODO: testable unit - DONE
+    procedure CheckMandatoryLineFields(SeminarRegistrationLine2: Record "Seminar Registration Line ASD")
+    begin
+        SeminarRegistrationLine2.TestField("Bill-to Customer No.");
+        SeminarRegistrationLine2.TestField("Participant Contact No.");
+    end;
+
+    // TODO: testable unit - POSTPONE
     local procedure UpdatePostingNos(var SeminarRegistrationHeader: Record "Sem. Registration Header ASD") ModifyHeader: Boolean;
     var
         NoSeriesMgt: Codeunit NoSeriesManagement;
@@ -167,7 +169,6 @@ codeunit 123456720 "Seminar-Post ASD"
             until SeminarCharge.Next() = 0;
     end;
 
-    // TODO: testable unit
     local procedure PostLines()
     var
         LineCount: Integer;
@@ -181,8 +182,7 @@ codeunit 123456720 "Seminar-Post ASD"
                 LineCount := LineCount + 1;
                 Window.Update(2, LineCount);
 
-                SeminarRegistrationLine.TestField("Bill-to Customer No.");
-                SeminarRegistrationLine.TestField("Participant Contact No.");
+                CheckMandatoryLineFields(SeminarRegistrationLine); // TODO: testable unit reference
 
                 if not SeminarRegistrationLine."To Invoice" then begin
                     SeminarRegistrationLine.Price := 0;
@@ -208,6 +208,16 @@ codeunit 123456720 "Seminar-Post ASD"
     end;
 
     // TODO: testable unit - DONE
+    procedure CheckSeminarLinesExist(SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
+    var
+        SeminarRegistrationLine2: Record "Seminar Registration Line ASD";
+    begin
+        SeminarRegistrationLine2.SetRange("Document No.", SeminarRegistrationHeader2."No.");
+        if SeminarRegistrationLine2.IsEmpty() then
+            Error(NothingToPostErr);
+    end;
+
+    // TODO: testable unit - POSTPONE
     local procedure PostSeminarJnlLine(ChargeType: Enum "Seminar Journal Charge Type ASD"): Integer
     var
         SeminarJnlLine: Record "Seminar Journal Line ASD";
@@ -290,7 +300,7 @@ codeunit 123456720 "Seminar-Post ASD"
         SeminarJournalLine."Resource Ledger Entry No." := PostResJnlLine(Room);
     end;
 
-    // TODO: testable unit - DONE
+    // TODO: testable unit - POSTPONE
     local procedure PostResJnlLine(Resource: Record Resource): Integer
     var
         ResJnlLine: Record "Res. Journal Line";
