@@ -44,13 +44,13 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure CheckMandatoryHeaderFieldsInvalidStatus();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidStatusASD: Codeunit StubRegHdrInValidStatusASD;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] registration invalid status
 
         // [WHEN] Testing valid Seminar Registration
-        asserterror RegistrationValidatorASD.CheckMandatoryHeaderFields(StubRegHdrInValidStatusASD);
+        asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidStatusASD);
 
         // [THEN] Related ledger entries exist
         Assert.ExpectedError('Status must be equal to ''Closed''');
@@ -59,13 +59,13 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure CheckMandatoryHeaderFieldsInvalidPostingDate();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidPostingDate: Codeunit StubRegHdrInValidPostingDate;
     begin
         // [GIVEN] Seminar registration invalid Posting Date
 
         // [WHEN] Testing valid Seminar Registration
-        asserterror RegistrationValidatorASD.CheckMandatoryHeaderFields(StubRegHdrInValidPostingDate);
+        asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidPostingDate);
 
         // [THEN] Related ledger entries exist
         Assert.ExpectedError('Posting Date cannot be zero or empty.');
@@ -74,13 +74,13 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure CheckMandatoryHeaderFieldsInvalidDocumentDate();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidDocumentDate: Codeunit StubRegHdrInValidDocumentDate;
     begin
         // [GIVEN] Seminar registration invalid status
 
         // [WHEN] Testing valid Seminar Registration
-        asserterror RegistrationValidatorASD.CheckMandatoryHeaderFields(StubRegHdrInValidDocumentDate);
+        asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidDocumentDate);
 
         // [THEN] Related ledger entries exist
         Assert.ExpectedError('Document Date cannot be zero or empty.');
@@ -89,13 +89,13 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure CheckMandatoryHeaderFieldsInvalidSeminarNo();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidSeminarNoASD: Codeunit StubRegHdrInValidSeminarNoASD;
     begin
         // [GIVEN] Seminar registration invalid status
 
         // [WHEN] Testing valid Seminar Registration
-        asserterror RegistrationValidatorASD.CheckMandatoryHeaderFields(StubRegHdrInValidSeminarNoASD);
+        asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidSeminarNoASD);
 
         // [THEN] Related ledger entries exist
         Assert.ExpectedError('Seminar No. cannot be zero or empty.');
@@ -104,13 +104,13 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure CheckMandatoryHeaderFieldsInvalidDuration();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidDurationASD: Codeunit StubRegHdrInValidDurationASD;
     begin
         // [GIVEN] Seminar registration invalid status
 
         // [WHEN] Testing valid Seminar Registration
-        asserterror RegistrationValidatorASD.CheckMandatoryHeaderFields(StubRegHdrInValidDurationASD);
+        asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidDurationASD);
 
         // [THEN] Related ledger entries exist
         Assert.ExpectedError('Duration cannot be zero or empty.');
@@ -119,13 +119,13 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure CheckMandatoryHeaderFieldsInvalidInstructorResourscNo();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidInstResNo: Codeunit StubRegHdrInValidInstResNo;
     begin
         // [GIVEN] Seminar registration invalid status
 
         // [WHEN] Testing valid Seminar Registration
-        asserterror RegistrationValidatorASD.CheckMandatoryHeaderFields(StubRegHdrInValidInstResNo);
+        asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidInstResNo);
 
         // [THEN] Related ledger entries exist
         Assert.ExpectedError('Instructor Resource No. cannot be zero or empty.');
@@ -134,13 +134,13 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure CheckMandatoryHeaderFieldsInvalidRoomResouceNo();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidRoomResNo: Codeunit StubRegHdrInValidRoomResNo;
     begin
         // [GIVEN] Seminar registration invalid status
 
         // [WHEN] Testing valid Seminar Registration
-        asserterror RegistrationValidatorASD.CheckMandatoryHeaderFields(StubRegHdrInValidRoomResNo);
+        asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidRoomResNo);
 
         // [THEN] Related ledger entries exist
         Assert.ExpectedError('Room Resource No. cannot be zero or empty.');
@@ -149,13 +149,13 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure CheckMandatoryHeaderFieldsValid();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegistrationHeaderValidASD: Codeunit StubRegistrationHeaderValidASD;
     begin
         // [GIVEN] Seminar registration invalid status
 
         // [WHEN] Testing valid Seminar Registration
-        RegistrationValidatorASD.CheckMandatoryHeaderFields(StubRegistrationHeaderValidASD);
+        RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegistrationHeaderValidASD);
         // [THEN] Related ledger entries exist
     end;
     #endregion CheckMandatoryHeaderFields
@@ -165,11 +165,11 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure VerifySeminarLinesExistsInvalid();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationLineValidator: Codeunit RegistrationLineValidator;
     begin
         // [GIVEN] Seminar registration with no lines
         // [WHEN] Testing valid Seminar Registration
-        asserterror RegistrationValidatorASD.HandleLinesExists(true);
+        asserterror RegistrationLineValidator.HandleLinesExists(true);
         // [THEN] Related ledger entries exist
         Assert.ExpectedError('There is nothing to post.');
     end;
@@ -177,11 +177,11 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure VerifySeminarLinesExistsValid();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationLineValidator: Codeunit RegistrationLineValidator;
     begin
         // [GIVEN] Seminar registration with lines
         // [WHEN] Testing valid Seminar Registration
-        RegistrationValidatorASD.HandleLinesExists(false);
+        RegistrationLineValidator.HandleLinesExists(false);
         // [THEN] Related ledger entries exist
     end;
 
@@ -192,13 +192,13 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure VerifySeminarRegLineForPostingBillToCustInv();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationLineValidator: Codeunit RegistrationLineValidator;
         StubRegLineInValidBillToCust: Codeunit StubRegLineInValidBillToCust;
     begin
         // [GIVEN] Seminar registration line invalid Bill-to Customer No.
 
         // [WHEN] Testing VerifySeminarRegLineForPosting
-        asserterror RegistrationValidatorASD.VerifyRegLineForPosting(StubRegLineInValidBillToCust);
+        asserterror RegistrationLineValidator.VerifyRegLineForPosting(StubRegLineInValidBillToCust);
         // [THEN] Bill-to Customer No. error
         Assert.ExpectedError('Bill-to Customer No. cannot be zero or empty.');
     end;
@@ -206,13 +206,13 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure VerifySeminarRegLineForPostingParticipantInvalid();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationLineValidator: Codeunit RegistrationLineValidator;
         StubRegLineInValidPartCont: Codeunit StubRegLineInValidPartCont;
     begin
         // [GIVEN] Seminar registration line invalid participant
 
         // [WHEN] Testing valid VerifySeminarRegLineForPosting
-        asserterror RegistrationValidatorASD.VerifyRegLineForPosting(StubRegLineInValidPartCont);
+        asserterror RegistrationLineValidator.VerifyRegLineForPosting(StubRegLineInValidPartCont);
         // [THEN] Participant Contact No. error
         Assert.ExpectedError('Participant Contact No. cannot be zero or empty.');
     end;
@@ -220,13 +220,13 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure VerifySeminarRegLineForPostingValid();
     var
-        RegistrationValidatorASD: Codeunit RegistrationValidatorASD;
+        RegistrationLineValidator: Codeunit RegistrationLineValidator;
         StubRegLineValid: Codeunit StubRegLineValid;
     begin
         // [GIVEN] Seminar registration line valid
 
         // [WHEN] Testing valid VerifySeminarRegLineForPosting
-        RegistrationValidatorASD.VerifyRegLineForPosting(StubRegLineValid);
+        RegistrationLineValidator.VerifyRegLineForPosting(StubRegLineValid);
         // [THEN] Related ledger entries exist
     end;
 

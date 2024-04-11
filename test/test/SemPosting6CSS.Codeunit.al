@@ -245,7 +245,7 @@ codeunit 123456765 "Sem. Posting (6) CSS ASD"
         SeminarMgtLibSetupASD.CreateSeminarSetup();
         SeminarMgtLibOprtnsASD.CreateSeminarRegistration(SeminarRegistrationHeader);
         // [WHEN] Testing valid Seminar Registration
-        asserterror SeminarValidator.CheckSeminarLinesExist(SeminarRegistrationHeader);
+        asserterror SeminarValidator.CheckLinesExist(SeminarRegistrationHeader);
         // [THEN] Related ledger entries exist
         Assert.ExpectedError('There is nothing to post.');
     end;
@@ -267,7 +267,7 @@ codeunit 123456765 "Sem. Posting (6) CSS ASD"
     //     SeminarRegistrationLineASD."Document No." := SeminarRegistrationHeader."No.";
     //     SeminarRegistrationLineASD.Insert(false);
     //     // [WHEN] Testing valid Seminar Registration
-    //     SeminarValidator.CheckSeminarLinesExist(SeminarRegistrationHeader);
+    //     SeminarValidator.CheckLinesExist(SeminarRegistrationHeader);
     //     // [THEN] Related ledger entries exist
     // end;
     #endregion CheckSeminarLinesExist

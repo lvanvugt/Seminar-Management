@@ -14,7 +14,8 @@ codeunit 123456720 "Seminar-Post ASD"
         SeminarCharge: Record "Seminar Charge ASD";
         PstdSeminarRegistrationHeader: Record "Posted Sem. Reg. Header ASD";
         ResJnlPostLine: Codeunit "Res. Jnl.-Post Line";
-        RegistrationTesterASD: Codeunit RegistrationValidatorASD;
+        RegistrationLineValidator: Codeunit RegistrationLineValidator;
+        RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         SeminarJnlPostLine: Codeunit "Seminar Jnl.-Post Line ASD";
         Window: Dialog;
         SourceCode: Code[10];
@@ -66,7 +67,7 @@ codeunit 123456720 "Seminar-Post ASD"
     begin
         // Test Near
         RegistrationHeader_ASD.PopulateFromSeminarRegistrationHeader(SeminarRegistrationHeader2);
-        RegistrationTesterASD.CheckMandatoryHeaderFields(RegistrationHeader_ASD);
+        RegistrationHeaderValidator.CheckMandatoryHeaderFields(RegistrationHeader_ASD);
 
         InitProgressWindow(SeminarRegistrationHeader2."No.");
 
@@ -165,7 +166,7 @@ codeunit 123456720 "Seminar-Post ASD"
                 LineCount := LineCount + 1;
                 Window.Update(2, LineCount);
                 RegistrationLineASD.PopulateFromSeminarRegistrationLine(SeminarRegistrationLine);
-                RegistrationTesterASD.VerifyRegLineForPosting(RegistrationLineASD);
+                RegistrationLineValidator.VerifyRegLineForPosting(RegistrationLineASD);
 
                 if not SeminarRegistrationLine."To Invoice" then begin
                     SeminarRegistrationLine.Price := 0;
@@ -448,7 +449,7 @@ codeunit 123456720 "Seminar-Post ASD"
         SeminarRegistrationLine2: Record "Seminar Registration Line ASD";
     begin
         SeminarRegistrationLine2.SetRange("Document No.", SeminarRegistrationHeader2."No.");
-        RegistrationTesterASD.HandleLinesExists(SeminarRegistrationLine2.IsEmpty());
+        RegistrationLineValidator.HandleLinesExists(SeminarRegistrationLine2.IsEmpty());
     end;
     // ASD8.03<
 }

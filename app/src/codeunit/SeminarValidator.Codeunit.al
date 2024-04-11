@@ -11,7 +11,7 @@ Codeunit 123456707 SeminarValidator
         SeminarRegistrationHeader2.TestField("Room Resource No.");
     end;
 
-    procedure CheckSeminarLinesExist(SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
+    procedure CheckLinesExist(SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
     var
         SeminarRegistrationLine2: Record "Seminar Registration Line ASD";
         NothingToPostErr: Label 'There is nothing to post.';

@@ -69,7 +69,7 @@ codeunit 123456720 "Seminar-Post ASD"
         InitProgressWindow(SeminarRegistrationHeader2."No.");
 
         // Test Far
-        SeminarValidator.CheckSeminarLinesExist(SeminarRegistrationHeader2); // TODO: testable unit reference
+        SeminarValidator.CheckLinesExist(SeminarRegistrationHeader2); // TODO: testable unit reference
 
         // ASD8.03>
         CheckDim(); // TODO: testable unit reference
