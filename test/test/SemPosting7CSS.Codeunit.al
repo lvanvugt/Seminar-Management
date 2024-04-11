@@ -1,4 +1,4 @@
-codeunit 123456765 "Sem. Posting (6) CSS ASD"
+codeunit 123456766 "Sem. Posting (7) CSS ASD"
 {
     // [FEATURE][Seminar Management][Posting]
 
@@ -8,44 +8,6 @@ codeunit 123456765 "Sem. Posting (6) CSS ASD"
     TestPermissions = Disabled;
 
     #region Test Methods
-#if include_sunny_path
-    [Test]
-    [HandlerFunctions('ConfirmHandlerYes')]
-    procedure PostClosedSeminarRegistrationFromSeminarRegistrationList()
-    var
-        PostingNo: Code[20];
-        SeminarRegistrationNo: Code[20];
-    begin
-        // [SCENARIO 0070] Post closed seminar registration from Seminar Registration List page
-        // [GIVEN] Seminar
-        // [GIVEN] Instructor resource
-        // [GIVEN] Room resource
-        // [GIVEN] Customer with company contact
-        // [GIVEN] Person contact for customer
-        Initialize();
-        // [GIVEN] Closed seminar registration with one participant line
-        SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, ParticipantNo);
-        PostingNo := SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
-
-        // [WHEN] Press post button on Seminar Registration List
-        // ConfirmHandlerYes will handle user input
-        PressPostOnSeminarRegistrationList(SeminarRegistrationNo);
-
-        // [THEN] Seminar registration is removed
-        VerifySeminarRegistrationIsRemoved(SeminarRegistrationNo);
-        // [THEN] Posted seminar registration exists
-        VerifyPostedSeminarRegistrationExists(PostingNo);
-        // [THEN] Customer related seminar ledger entry exists
-        VerifyCustomerRelatedSeminarLedgerEntryExists(PostingNo, SeminarNo, CustomerNo, ParticipantNo);
-        // [THEN] Instructor related seminar ledger entry exists
-        VerifyInstructorRelatedSeminarLedgerEntryExists(PostingNo, SeminarNo, InstructorResourceNo);
-        // [THEN] Room related seminar ledger entry exists
-        VerifyRoomRelatedSeminarLedgerEntryExists(PostingNo, SeminarNo, RoomResourceNo);
-        // [THEN] Instructor related resource ledger entry exists
-        VerifyInstructorRelatedResourceLedgerEntryExists(PostingNo, SeminarNo, InstructorResourceNo);
-        // [THEN] Room related resource ledger entry exists
-        VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, SeminarNo, RoomResourceNo);
-    end;
 
     [Test]
     procedure PostClosedSeminarRegistration()
@@ -82,7 +44,6 @@ codeunit 123456765 "Sem. Posting (6) CSS ASD"
         // [THEN] Room related resource ledger entry exists
         VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, SeminarNo, RoomResourceNo);
     end;
-#endif
 
     #region CheckMandatoryHeaderFields
     [Test]
@@ -197,20 +158,20 @@ codeunit 123456765 "Sem. Posting (6) CSS ASD"
         Assert.ExpectedError('Room Resource No. must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
     end;
 
-    // [Test]
-    // procedure CheckMandatoryHeaderFieldsValid();
-    // var
-    //     SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
-    //     SeminarValidator: Codeunit SeminarValidator;
-    // begin
-    //     // [GIVEN] Seminar registration invalid status
-    //     SeminarRegistrationHeader := CreateSeminarRegistrationHeader(0);
+    [Test]
+    procedure CheckMandatoryHeaderFieldsValid();
+    var
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+        SeminarValidator: Codeunit SeminarValidator;
+    begin
+        // [GIVEN] Seminar registration invalid status
+        SeminarRegistrationHeader := CreateSeminarRegistrationHeader(0);
 
-    //     // [WHEN] Testing valid Seminar Registration
-    //     SeminarValidator.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
+        // [WHEN] Testing valid Seminar Registration
+        SeminarValidator.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
-    //     // [THEN] Related ledger entries exist
-    // end;
+        // [THEN] Related ledger entries exist
+    end;
 
     local procedure CreateSeminarRegistrationHeader(FieldNo: Integer) SeminarRegistrationHeader: Record "Sem. Registration Header ASD"
     begin
@@ -250,26 +211,26 @@ codeunit 123456765 "Sem. Posting (6) CSS ASD"
         Assert.ExpectedError('There is nothing to post.');
     end;
 
-    // [Test]
-    // procedure CheckSeminarLinesExistValid();
-    // var
-    //     SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
-    //     SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
-    //     SeminarMgtLibSetupASD: Codeunit "Seminar Mgt. Lib. Setup ASD";
-    //     SeminarValidator: Codeunit SeminarValidator;
-    //     SeminarMgtLibOprtnsASD: Codeunit "Seminar Mgt. Lib. Oprtns. ASD";
-    // begin
-    //     // [GIVEN] Seminar registration with lines
-    //     SeminarMgtLibSetupASD.CreateSeminarSetup();
-    //     SeminarMgtLibOprtnsASD.CreateSeminarRegistration(SeminarRegistrationHeader);
-    //     SeminarRegistrationLineASD.Init();
-    //     SeminarRegistrationLineASD."Line No." := 10000;
-    //     SeminarRegistrationLineASD."Document No." := SeminarRegistrationHeader."No.";
-    //     SeminarRegistrationLineASD.Insert(false);
-    //     // [WHEN] Testing valid Seminar Registration
-    //     SeminarValidator.CheckSeminarLinesExist(SeminarRegistrationHeader);
-    //     // [THEN] Related ledger entries exist
-    // end;
+    [Test]
+    procedure CheckSeminarLinesExistValid();
+    var
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+        SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
+        SeminarMgtLibSetupASD: Codeunit "Seminar Mgt. Lib. Setup ASD";
+        SeminarValidator: Codeunit SeminarValidator;
+        SeminarMgtLibOprtnsASD: Codeunit "Seminar Mgt. Lib. Oprtns. ASD";
+    begin
+        // [GIVEN] Seminar registration with lines
+        SeminarMgtLibSetupASD.CreateSeminarSetup();
+        SeminarMgtLibOprtnsASD.CreateSeminarRegistration(SeminarRegistrationHeader);
+        SeminarRegistrationLineASD.Init();
+        SeminarRegistrationLineASD."Line No." := 10000;
+        SeminarRegistrationLineASD."Document No." := SeminarRegistrationHeader."No.";
+        SeminarRegistrationLineASD.Insert(false);
+        // [WHEN] Testing valid Seminar Registration
+        SeminarValidator.CheckSeminarLinesExist(SeminarRegistrationHeader);
+        // [THEN] Related ledger entries exist
+    end;
     #endregion CheckSeminarLinesExist
 
     #region CheckMandatoryLineFields
@@ -304,19 +265,19 @@ codeunit 123456765 "Sem. Posting (6) CSS ASD"
         Assert.ExpectedError('Participant Contact No. must have a value in Seminar Registration Line: Document No.=, Line No.=0. It cannot be zero or empty.');
     end;
 
-    // [Test]
-    // procedure CheckMandatoryLineFieldsValid();
-    // var
-    //     SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
-    //     SeminarValidator: Codeunit SeminarValidator;
-    // begin
-    //     // [GIVEN] Seminar registration line valid
-    //     SeminarRegistrationLineASD := CreateSeminarRegistrationLine(0);
+    [Test]
+    procedure CheckMandatoryLineFieldsValid();
+    var
+        SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
+        SeminarValidator: Codeunit SeminarValidator;
+    begin
+        // [GIVEN] Seminar registration line valid
+        SeminarRegistrationLineASD := CreateSeminarRegistrationLine(0);
 
-    //     // [WHEN] Testing valid CheckMandatoryLineFields
-    //     SeminarValidator.CheckMandatoryLineFields(SeminarRegistrationLineASD);
-    //     // [THEN] Related ledger entries exist
-    // end;
+        // [WHEN] Testing valid CheckMandatoryLineFields
+        SeminarValidator.CheckMandatoryLineFields(SeminarRegistrationLineASD);
+        // [THEN] Related ledger entries exist
+    end;
     #endregion CheckMandatoryLineFields
     #endregion Test Methods
 
@@ -566,14 +527,5 @@ codeunit 123456765 "Sem. Posting (6) CSS ASD"
         Assert.ExpectedError(MustHaveValueErr);
     end;
     #endregion THEN helper methods
-
-    #region UI Handlers
-    [ConfirmHandler]
-    procedure ConfirmHandlerYes(Qst: Text[1024]; var Reply: Boolean)
-    begin
-        Reply := true;
-        // Qst check needs to added
-    end;
-    #endregion UI Handlers
 
 }

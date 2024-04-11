@@ -1,4 +1,4 @@
-#if componentized_structured_spaghetti
+#if componentized_structured_spaghetti or solid
 codeunit 123456732 "Seminar Jnl.-Post Line ASD"
 {
     Permissions = tabledata "Seminar Ledger Entry ASD" = imd,
