@@ -165,11 +165,11 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure VerifySeminarLinesExistsInvalid();
     var
-        RegistrationLineValidator: Codeunit RegistrationLineValidator;
+        RegistrationLineExistance: Codeunit RegistrationLineExistance;
     begin
         // [GIVEN] Seminar registration with no lines
         // [WHEN] Testing valid Seminar Registration
-        asserterror RegistrationLineValidator.HandleLinesExists(true);
+        asserterror RegistrationLineExistance.HandleLinesExists(true);
         // [THEN] Related ledger entries exist
         Assert.ExpectedError('There is nothing to post.');
     end;
@@ -177,11 +177,11 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
     [Test]
     procedure VerifySeminarLinesExistsValid();
     var
-        RegistrationLineValidator: Codeunit RegistrationLineValidator;
+        RegistrationLineExistance: Codeunit RegistrationLineExistance;
     begin
         // [GIVEN] Seminar registration with lines
         // [WHEN] Testing valid Seminar Registration
-        RegistrationLineValidator.HandleLinesExists(false);
+        RegistrationLineExistance.HandleLinesExists(false);
         // [THEN] Related ledger entries exist
     end;
 

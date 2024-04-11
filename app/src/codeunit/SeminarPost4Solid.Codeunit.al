@@ -15,6 +15,7 @@ codeunit 123456720 "Seminar-Post ASD"
         PstdSeminarRegistrationHeader: Record "Posted Sem. Reg. Header ASD";
         ResJnlPostLine: Codeunit "Res. Jnl.-Post Line";
         RegistrationLineValidator: Codeunit RegistrationLineValidator;
+        RegistrationLineExistance: Codeunit RegistrationLineExistance;
         RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         SeminarJnlPostLine: Codeunit "Seminar Jnl.-Post Line ASD";
         Window: Dialog;
@@ -449,7 +450,7 @@ codeunit 123456720 "Seminar-Post ASD"
         SeminarRegistrationLine2: Record "Seminar Registration Line ASD";
     begin
         SeminarRegistrationLine2.SetRange("Document No.", SeminarRegistrationHeader2."No.");
-        RegistrationLineValidator.HandleLinesExists(SeminarRegistrationLine2.IsEmpty());
+        RegistrationLineExistance.HandleLinesExists(SeminarRegistrationLine2.IsEmpty());
     end;
     // ASD8.03<
 }
