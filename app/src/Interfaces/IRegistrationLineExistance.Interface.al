@@ -1,5 +1,5 @@
 Interface IRegistrationLineExistance
 {
 
-    procedure HandleLinesExists(IsEmpty: Boolean);
+    procedure HandleLinesExist(IsEmpty: Boolean);
 }

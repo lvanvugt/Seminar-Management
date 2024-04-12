@@ -1,7 +1,7 @@
 codeunit 123456713 RegistrationLineExistance implements IRegistrationLineExistance
 {
 
-    procedure HandleLinesExists(IsEmpty: Boolean)
+    procedure HandleLinesExist(IsEmpty: Boolean)
     var
         NothingToPostErr: Label 'There is nothing to post.';
     begin

@@ -47,15 +47,15 @@ codeunit 123456766 "Sem. Posting (7) CSS ASD"
 
     #region CheckMandatoryHeaderFields
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidStatus();
+    procedure CheckMandatoryHeaderFieldsInvalidStatus()
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarValidator: Codeunit SeminarValidator;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Seminar registration with invalid status
         SeminarRegistrationHeader := CreateSeminarRegistrationHeader(SeminarRegistrationHeader.FieldNo(Status));
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror SeminarValidator.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
         // [THEN] Status must be equal to closed error thrown
@@ -63,15 +63,15 @@ codeunit 123456766 "Sem. Posting (7) CSS ASD"
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidPostingDate();
+    procedure CheckMandatoryHeaderFieldsInvalidPostingDate()
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarValidator: Codeunit SeminarValidator;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Seminar registration with invalid posting date
         SeminarRegistrationHeader := CreateSeminarRegistrationHeader(SeminarRegistrationHeader.FieldNo("Posting Date"));
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror SeminarValidator.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
         // [THEN] Posting date must be have value error thrown
@@ -79,98 +79,98 @@ codeunit 123456766 "Sem. Posting (7) CSS ASD"
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidDocumentDate();
+    procedure CheckMandatoryHeaderFieldsInvalidDocumentDate()
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarValidator: Codeunit SeminarValidator;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Seminar registration with invalid document date
         SeminarRegistrationHeader := CreateSeminarRegistrationHeader(SeminarRegistrationHeader.FieldNo("Document Date"));
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror SeminarValidator.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Document Date must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
+        // [THEN] Document date must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Document Date');
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidSeminarNo();
+    procedure CheckMandatoryHeaderFieldsInvalidSeminarNo()
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarValidator: Codeunit SeminarValidator;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Seminar registration with invalid seminar number
         SeminarRegistrationHeader := CreateSeminarRegistrationHeader(SeminarRegistrationHeader.FieldNo("Seminar No."));
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror SeminarValidator.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Seminar No. must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
+        // [THEN] Seminar number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Seminar No.');
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidDuration();
+    procedure CheckMandatoryHeaderFieldsInvalidDuration()
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarValidator: Codeunit SeminarValidator;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Seminar registration with invalid duration
         SeminarRegistrationHeader := CreateSeminarRegistrationHeader(SeminarRegistrationHeader.FieldNo(Duration));
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror SeminarValidator.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Duration must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
+        // [THEN] Duration must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Duration');
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidInstructorResourscNo();
+    procedure CheckMandatoryHeaderFieldsInvalidInstructorResourscNo()
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarValidator: Codeunit SeminarValidator;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Seminar registration with invalid instructor resource number
         SeminarRegistrationHeader := CreateSeminarRegistrationHeader(SeminarRegistrationHeader.FieldNo("Instructor Resource No."));
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror SeminarValidator.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Instructor Resource No. must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
+        // [THEN] Instructor resource number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Instructor Resource No.');
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidRoomResouceNo();
+    procedure CheckMandatoryHeaderFieldsInvalidRoomResouceNo()
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarValidator: Codeunit SeminarValidator;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Seminar registration with invalid room resource number
         SeminarRegistrationHeader := CreateSeminarRegistrationHeader(SeminarRegistrationHeader.FieldNo("Room Resource No."));
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror SeminarValidator.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Room Resource No. must have a value in Seminar Registration Header: No.=. It cannot be zero or empty.');
+        // [THEN] Room resource number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Room Resource No.');
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsValid();
+    procedure CheckMandatoryHeaderFieldsValid()
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarValidator: Codeunit SeminarValidator;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Valid seminar registration
         SeminarRegistrationHeader := CreateSeminarRegistrationHeader(0);
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         SeminarValidator.CheckMandatoryHeaderFields(SeminarRegistrationHeader);
 
-        // [THEN] Related ledger entries exist
+        // [THEN] No error  thrown
     end;
 
     local procedure CreateSeminarRegistrationHeader(FieldNo: Integer) SeminarRegistrationHeader: Record "Sem. Registration Header ASD"
@@ -195,7 +195,7 @@ codeunit 123456766 "Sem. Posting (7) CSS ASD"
     #region CheckSeminarLinesExist
 
     [Test]
-    procedure CheckSeminarLinesExistInvalid();
+    procedure CheckLinesExistInvalid()
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarValidator: Codeunit SeminarValidator;
@@ -205,14 +205,16 @@ codeunit 123456766 "Sem. Posting (7) CSS ASD"
         // [GIVEN] Seminar registration with no lines
         SeminarMgtLibSetupASD.CreateSeminarSetup();
         SeminarMgtLibOprtnsASD.CreateSeminarRegistration(SeminarRegistrationHeader);
-        // [WHEN] Testing valid Seminar Registration
+
+        // [WHEN] Check registration lines exist
         asserterror SeminarValidator.CheckLinesExist(SeminarRegistrationHeader);
+
         // [THEN] Related ledger entries exist
         Assert.ExpectedError('There is nothing to post.');
     end;
 
     [Test]
-    procedure CheckSeminarLinesExistValid();
+    procedure CheckLinesExistValid()
     var
         SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
         SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
@@ -227,46 +229,50 @@ codeunit 123456766 "Sem. Posting (7) CSS ASD"
         SeminarRegistrationLineASD."Line No." := 10000;
         SeminarRegistrationLineASD."Document No." := SeminarRegistrationHeader."No.";
         SeminarRegistrationLineASD.Insert(false);
-        // [WHEN] Testing valid Seminar Registration
+
+        // [WHEN] Check registration lines exist
         SeminarValidator.CheckLinesExist(SeminarRegistrationHeader);
-        // [THEN] Related ledger entries exist
+
+        // [THEN] No error thrown
     end;
     #endregion CheckSeminarLinesExist
 
     #region CheckMandatoryLineFields
 
     [Test]
-    procedure CheckMandatoryLineFieldsBillToCustInv();
+    procedure CheckMandatoryLineFieldsBillToCustInv()
     var
         SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
         SeminarValidator: Codeunit SeminarValidator;
     begin
-        // [GIVEN] Seminar registration line invalid Bill-to Customer No.
+        // [GIVEN] Seminar registration line with invalid Bill-to Customer No.
         SeminarRegistrationLineASD := CreateSeminarRegistrationLine(SeminarRegistrationLineASD.FieldNo("Bill-to Customer No."));
 
         // [WHEN] Testing CheckMandatoryLineFields
         asserterror SeminarValidator.CheckMandatoryLineFields(SeminarRegistrationLineASD);
-        // [THEN] Bill-to Customer No. error
-        Assert.ExpectedError('Bill-to Customer No. must have a value in Seminar Registration Line: Document No.=, Line No.=0. It cannot be zero or empty.');
+
+        // [THEN] Bill-to customer number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Bill-to Customer No.');
     end;
 
     [Test]
-    procedure CheckMandatoryLineFieldsParticipantInvalid();
+    procedure CheckMandatoryLineFieldsParticipantInvalid()
     var
         SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
         SeminarValidator: Codeunit SeminarValidator;
     begin
-        // [GIVEN] Seminar registration line invalid participant
+        // [GIVEN] Seminar registration line with invalid participant
         SeminarRegistrationLineASD := CreateSeminarRegistrationLine(SeminarRegistrationLineASD.FieldNo("Participant Contact No."));
 
         // [WHEN] Testing valid CheckMandatoryLineFields
         asserterror SeminarValidator.CheckMandatoryLineFields(SeminarRegistrationLineASD);
-        // [THEN] Participant Contact No. error
-        Assert.ExpectedError('Participant Contact No. must have a value in Seminar Registration Line: Document No.=, Line No.=0. It cannot be zero or empty.');
+
+        // [THEN] Participant contact  number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Participant Contact No.');
     end;
 
     [Test]
-    procedure CheckMandatoryLineFieldsValid();
+    procedure CheckMandatoryLineFieldsValid()
     var
         SeminarRegistrationLineASD: Record "Seminar Registration Line ASD";
         SeminarValidator: Codeunit SeminarValidator;
@@ -276,7 +282,8 @@ codeunit 123456766 "Sem. Posting (7) CSS ASD"
 
         // [WHEN] Testing valid CheckMandatoryLineFields
         SeminarValidator.CheckMandatoryLineFields(SeminarRegistrationLineASD);
-        // [THEN] Related ledger entries exist
+
+        // [THEN] No error thrown
     end;
     #endregion CheckMandatoryLineFields
     #endregion Test Methods
@@ -527,5 +534,4 @@ codeunit 123456766 "Sem. Posting (7) CSS ASD"
         Assert.ExpectedError(MustHaveValueErr);
     end;
     #endregion THEN helper methods
-
 }

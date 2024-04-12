@@ -450,7 +450,7 @@ codeunit 123456720 "Seminar-Post ASD"
         SeminarRegistrationLine2: Record "Seminar Registration Line ASD";
     begin
         SeminarRegistrationLine2.SetRange("Document No.", SeminarRegistrationHeader2."No.");
-        RegistrationLineExistance.HandleLinesExists(SeminarRegistrationLine2.IsEmpty());
+        RegistrationLineExistance.HandleLinesExist(SeminarRegistrationLine2.IsEmpty());
     end;
     // ASD8.03<
 }

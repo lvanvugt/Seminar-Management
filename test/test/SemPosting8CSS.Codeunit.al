@@ -1,9 +1,9 @@
-codeunit 123456779 "Sem. Posting (8) CSS ASD"
+codeunit 123456768 "Sem. Posting (8) CSS ASD"
 {
     Subtype = Test;
     TestPermissions = Disabled;
 
-    #region TestMethods
+    #region Test Methods
 
     [Test]
     procedure PostClosedSeminarRegistration()
@@ -40,185 +40,192 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
         // [THEN] Room related resource ledger entry exists
         VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, SeminarNo, RoomResourceNo);
     end;
+
     #region CheckMandatoryHeaderFields
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidStatus();
+    procedure CheckMandatoryHeaderFieldsInvalidStatus()
     var
         RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidStatusASD: Codeunit StubRegHdrInValidStatusASD;
     begin
-        // [GIVEN] registration invalid status
+        // [GIVEN] Seminar registration with invalid status
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidStatusASD);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Status must be equal to ''Closed''');
+        // [THEN] Status must be equal to closed error thrown
+        VerifyMustBeEqualToErrorThrown('Status', 'Closed');
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidPostingDate();
+    procedure CheckMandatoryHeaderFieldsInvalidPostingDate()
     var
         RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidPostingDate: Codeunit StubRegHdrInValidPostingDate;
     begin
-        // [GIVEN] Seminar registration invalid Posting Date
+        // [GIVEN] Seminar registration with invalid posting date
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidPostingDate);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Posting Date cannot be zero or empty.');
+        // [THEN] Posting date must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Posting Date');
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidDocumentDate();
+    procedure CheckMandatoryHeaderFieldsInvalidDocumentDate()
     var
         RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidDocumentDate: Codeunit StubRegHdrInValidDocumentDate;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Seminar registration with invalid document date
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidDocumentDate);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Document Date cannot be zero or empty.');
+        // [THEN] Document date must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Document Date');
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidSeminarNo();
+    procedure CheckMandatoryHeaderFieldsInvalidSeminarNo()
     var
         RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidSeminarNoASD: Codeunit StubRegHdrInValidSeminarNoASD;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Seminar registration with invalid seminar number
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidSeminarNoASD);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Seminar No. cannot be zero or empty.');
+        // [THEN] Seminar number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Seminar No.');
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidDuration();
+    procedure CheckMandatoryHeaderFieldsInvalidDuration()
     var
         RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidDurationASD: Codeunit StubRegHdrInValidDurationASD;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Seminar registration with invalid duration
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidDurationASD);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Duration cannot be zero or empty.');
+        // [THEN] Duration must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Duration');
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidInstructorResourscNo();
+    procedure CheckMandatoryHeaderFieldsInvalidInstructorResourscNo()
     var
         RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidInstResNo: Codeunit StubRegHdrInValidInstResNo;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Seminar registration with invalid instructor resource number
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidInstResNo);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Instructor Resource No. cannot be zero or empty.');
+        // [THEN] Instructor resource number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Instructor Resource No.');
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsInvalidRoomResouceNo();
+    procedure CheckMandatoryHeaderFieldsInvalidRoomResouceNo()
     var
         RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegHdrInValidRoomResNo: Codeunit StubRegHdrInValidRoomResNo;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Seminar registration with invalid room resource number
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         asserterror RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegHdrInValidRoomResNo);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('Room Resource No. cannot be zero or empty.');
+        // [THEN] Room resource number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Room Resource No.');
     end;
 
     [Test]
-    procedure CheckMandatoryHeaderFieldsValid();
+    procedure CheckMandatoryHeaderFieldsValid()
     var
         RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
         StubRegistrationHeaderValidASD: Codeunit StubRegistrationHeaderValidASD;
     begin
-        // [GIVEN] Seminar registration invalid status
+        // [GIVEN] Valid seminar registration
 
-        // [WHEN] Testing valid Seminar Registration
+        // [WHEN] Check valid seminar registration
         RegistrationHeaderValidator.CheckMandatoryHeaderFields(StubRegistrationHeaderValidASD);
-        // [THEN] Related ledger entries exist
+
+        // [THEN] No error  thrown
     end;
     #endregion CheckMandatoryHeaderFields
 
-    #region VerifySeminarLinesExists
+    #region CheckSeminarLinesExist
 
     [Test]
-    procedure VerifySeminarLinesExistsInvalid();
+    procedure CheckLinesExistInvalid()
     var
         RegistrationLineExistance: Codeunit RegistrationLineExistance;
     begin
         // [GIVEN] Seminar registration with no lines
-        // [WHEN] Testing valid Seminar Registration
-        asserterror RegistrationLineExistance.HandleLinesExists(true);
+
+        // [WHEN] Check registration lines exist
+        asserterror RegistrationLineExistance.HandleLinesExist(true);
+
         // [THEN] Related ledger entries exist
         Assert.ExpectedError('There is nothing to post.');
     end;
 
     [Test]
-    procedure VerifySeminarLinesExistsValid();
+    procedure CheckLinesExistValid()
     var
         RegistrationLineExistance: Codeunit RegistrationLineExistance;
     begin
         // [GIVEN] Seminar registration with lines
-        // [WHEN] Testing valid Seminar Registration
-        RegistrationLineExistance.HandleLinesExists(false);
-        // [THEN] Related ledger entries exist
+
+        // [WHEN] Check registration lines exist
+        RegistrationLineExistance.HandleLinesExist(false);
+
+        // [THEN] No error thrown
     end;
+    #endregion CheckSeminarLinesExist
 
-    #endregion VerifySeminarLinesExists
-
-    #region VerifySeminarRegLineForPosting
+    #region CheckMandatoryLineFields
 
     [Test]
-    procedure VerifySeminarRegLineForPostingBillToCustInv();
+    procedure CheckMandatoryLineFieldsBillToCustInv()
     var
         RegistrationLineValidator: Codeunit RegistrationLineValidator;
         StubRegLineInValidBillToCust: Codeunit StubRegLineInValidBillToCust;
     begin
-        // [GIVEN] Seminar registration line invalid Bill-to Customer No.
+        // [GIVEN] Seminar registration line with invalid Bill-to Customer No.
 
         // [WHEN] Testing VerifySeminarRegLineForPosting
         asserterror RegistrationLineValidator.VerifyRegLineForPosting(StubRegLineInValidBillToCust);
-        // [THEN] Bill-to Customer No. error
-        Assert.ExpectedError('Bill-to Customer No. cannot be zero or empty.');
+
+        // [THEN] Bill-to customer number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Bill-to Customer No.');
     end;
 
     [Test]
-    procedure VerifySeminarRegLineForPostingParticipantInvalid();
+    procedure CheckMandatoryLineFieldsParticipantInvalid()
     var
         RegistrationLineValidator: Codeunit RegistrationLineValidator;
         StubRegLineInValidPartCont: Codeunit StubRegLineInValidPartCont;
     begin
-        // [GIVEN] Seminar registration line invalid participant
+        // [GIVEN] Seminar registration line with invalid participant
 
         // [WHEN] Testing valid VerifySeminarRegLineForPosting
         asserterror RegistrationLineValidator.VerifyRegLineForPosting(StubRegLineInValidPartCont);
-        // [THEN] Participant Contact No. error
-        Assert.ExpectedError('Participant Contact No. cannot be zero or empty.');
+
+        // [THEN] Participant contact  number must be have value error thrown
+        VerifyMustHaveValueErrorThrown('Participant Contact No.');
     end;
 
     [Test]
-    procedure VerifySeminarRegLineForPostingValid();
+    procedure CheckMandatoryLineFieldsValid()
     var
         RegistrationLineValidator: Codeunit RegistrationLineValidator;
         StubRegLineValid: Codeunit StubRegLineValid;
@@ -227,12 +234,11 @@ codeunit 123456779 "Sem. Posting (8) CSS ASD"
 
         // [WHEN] Testing valid VerifySeminarRegLineForPosting
         RegistrationLineValidator.VerifyRegLineForPosting(StubRegLineValid);
-        // [THEN] Related ledger entries exist
+
+        // [THEN] No error thrown
     end;
-
-
-    #endregion VerifySeminarRegLineForPosting
-    #endregion TestMethods
+    #endregion CheckMandatoryLineFields
+    #endregion Test Methods
 
     var
         Assert: Codeunit Assert;
