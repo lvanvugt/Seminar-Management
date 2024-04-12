@@ -43,7 +43,7 @@
   "resourceExposurePolicy": {
     "allowDebugging": true,
     "allowDownloadingSource": false,
-    "includeSourceInSymbolFile": false
+    "includeSourceInSymbolFile": true
   },
   "runtime": "12.0",
   "preprocessorSymbols": ["include_sunny_path"]
