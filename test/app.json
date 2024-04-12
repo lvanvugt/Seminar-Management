@@ -46,5 +46,5 @@
     "includeSourceInSymbolFile": false
   },
   "runtime": "12.0",
-  "preprocessorSymbols": ["componentized_structured_spaghetti", "include_sunny_path"]
+  "preprocessorSymbols": ["include_sunny_path"]
 }

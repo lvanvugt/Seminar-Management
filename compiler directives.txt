@@ -1,0 +1,10 @@
+existing compiler directives
+
+app
+	unstructured_spaghetti
+	structured_spaghetti
+	componentized_structured_spaghetti
+	solid
+
+test
+	include_sunny_path

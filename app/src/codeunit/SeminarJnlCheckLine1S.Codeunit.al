@@ -1,4 +1,4 @@
-#if spaghetti
+#if unstructured_spaghetti or structured_spaghetti
 codeunit 123456731 "Seminar Jnl.-Check Line ASD"
 {
     // ASD8.03 - 2018-08-15 D.E. Veloper - Chapter 8: Lab 3 - Dimensions functionality

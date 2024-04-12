@@ -1,4 +1,4 @@
-#if spaghetti
+#if unstructured_spaghetti or structured_spaghetti
 codeunit 123456732 "Seminar Jnl.-Post Line ASD"
 {
     Permissions = tabledata "Seminar Ledger Entry ASD" = imd,
