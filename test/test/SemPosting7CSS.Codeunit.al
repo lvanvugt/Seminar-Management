@@ -209,8 +209,8 @@ codeunit 123456766 "Sem. Posting (7) CSS ASD"
         // [WHEN] Check registration lines exist
         asserterror SeminarValidator.CheckLinesExist(SeminarRegistrationHeader);
 
-        // [THEN] Related ledger entries exist
-        Assert.ExpectedError('There is nothing to post.');
+        // [THEN] Nothing to post error thrown
+        VerifyNothingToPostErrorThrown();
     end;
 
     [Test]
@@ -532,6 +532,13 @@ codeunit 123456766 "Sem. Posting (7) CSS ASD"
     begin
         Assert.ExpectedError(FieldCaption);
         Assert.ExpectedError(MustHaveValueErr);
+    end;
+
+    local procedure VerifyNothingToPostErrorThrown()
+    var
+        NothingToPostErr: Label 'There is nothing to post.';
+    begin
+        Assert.ExpectedError(NothingToPostErr);
     end;
     #endregion THEN helper methods
 }
