@@ -1,4 +1,4 @@
-Codeunit 123456742 StubRegHeaderValidatorValid implements IRegistrationHeaderValidator
+Codeunit 123456742 DoubleRegHeaderValidator implements IRegistrationHeaderValidator
 {
     procedure CheckMandatoryHeaderFields(IRegistrationHeader_ASD: Interface IRegistrationHeader_ASD)
     begin
