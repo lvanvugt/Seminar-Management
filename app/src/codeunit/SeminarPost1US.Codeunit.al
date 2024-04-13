@@ -41,13 +41,13 @@ codeunit 123456720 "Seminar-Post ASD"
         ClearAll();
         SeminarRegistrationHeader := Rec;
         // Test Near / Test Far
+        SeminarRegistrationHeader.TestField(Status, SeminarRegistrationHeader.Status::Closed);
         SeminarRegistrationHeader.TestField("Posting Date");
         SeminarRegistrationHeader.TestField("Document Date");
         SeminarRegistrationHeader.TestField("Seminar No.");
         SeminarRegistrationHeader.TestField(Duration);
         SeminarRegistrationHeader.TestField("Instructor Resource No.");
         SeminarRegistrationHeader.TestField("Room Resource No.");
-        SeminarRegistrationHeader.TestField(Status, SeminarRegistrationHeader.Status::Closed);
 
         // ASD8.03>
         CheckDim;
