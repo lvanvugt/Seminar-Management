@@ -4,7 +4,6 @@
         "${CodeCop}",
         "${analyzerFolder}BusinessCentral.LinterCop.dll"
     ],
-    "CRS.ObjectNameSuffix": " ASD",
     "CRS.FileNamePattern": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
     "CRS.FileNamePatternExtensions": "<ObjectNameShort>.<ObjectTypeShortPascalCase>.al",
     "CRS.ExtensionObjectNamePattern": "",

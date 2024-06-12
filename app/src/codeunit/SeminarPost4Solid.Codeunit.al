@@ -14,11 +14,10 @@ codeunit 123456720 "Seminar-Post ASD"
         SeminarCharge: Record "Seminar Charge ASD";
         PstdSeminarRegistrationHeader: Record "Posted Sem. Reg. Header ASD";
         ResJnlPostLine: Codeunit "Res. Jnl.-Post Line";
-        RegistrationLineValidator: Codeunit RegistrationLineValidator;
-        RegistrationLineExistance: Codeunit RegistrationLineExistance;
-        RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
+        _Factory: Interface IFactory;
         SeminarJnlPostLine: Codeunit "Seminar Jnl.-Post Line ASD";
         Window: Dialog;
+        _FactorySet: Boolean;
         SourceCode: Code[10];
         PostingLinesMsg: Label 'Posting lines              #2######\';
         RegistrationMsg: Label 'Registration';
@@ -32,6 +31,8 @@ codeunit 123456720 "Seminar-Post ASD"
 
     trigger OnRun()
     begin
+        if not _FactorySet then
+            InitFactory();
         ClearAll();
         SeminarRegistrationHeader := Rec;
         // Test Near / Test Far
@@ -61,6 +62,26 @@ codeunit 123456720 "Seminar-Post ASD"
         Rec := SeminarRegistrationHeader;
     end;
 
+    procedure SetFactory(Factory: Interface IFactory)
+    begin
+        _Factory := Factory;
+        _FactorySet := true;
+    end;
+
+    procedure InitFactory()
+    var
+        Factory: Codeunit Factory;
+        RegistrationLineValidator: Codeunit RegistrationLineValidator;
+        RegistrationLineExistance: Codeunit RegistrationLineExistance;
+        RegistrationHeaderValidator: Codeunit RegistrationHeaderValidator;
+    begin
+        Factory.SetIRegistrationHeaderValidator(RegistrationHeaderValidator);
+        Factory.SetIRegistrationLineValidator(RegistrationLineValidator);
+        Factory.SetIRegistrationLineExistance(RegistrationLineExistance);
+        _Factory := Factory;
+        _FactorySet := true;
+    end;
+
     local procedure CheckAndUpdate(var SeminarRegistrationHeader2: Record "Sem. Registration Header ASD")
     var
         SourceCodeSetup: Record "Source Code Setup";
@@ -68,7 +89,7 @@ codeunit 123456720 "Seminar-Post ASD"
     begin
         // Test Near
         RegistrationHeader_ASD.PopulateFromSeminarRegistrationHeader(SeminarRegistrationHeader2);
-        RegistrationHeaderValidator.CheckMandatoryHeaderFields(RegistrationHeader_ASD);
+        _Factory.GetIRegistrationHeaderValidator().CheckMandatoryHeaderFields(RegistrationHeader_ASD);
 
         InitProgressWindow(SeminarRegistrationHeader2."No.");
 
@@ -167,7 +188,7 @@ codeunit 123456720 "Seminar-Post ASD"
                 LineCount := LineCount + 1;
                 Window.Update(2, LineCount);
                 RegistrationLineASD.PopulateFromSeminarRegistrationLine(SeminarRegistrationLine);
-                RegistrationLineValidator.VerifyRegLineForPosting(RegistrationLineASD);
+                _Factory.GetIRegistrationLineValidator().VerifyRegLineForPosting(RegistrationLineASD);
 
                 if not SeminarRegistrationLine."To Invoice" then begin
                     SeminarRegistrationLine.Price := 0;
@@ -450,7 +471,7 @@ codeunit 123456720 "Seminar-Post ASD"
         SeminarRegistrationLine2: Record "Seminar Registration Line ASD";
     begin
         SeminarRegistrationLine2.SetRange("Document No.", SeminarRegistrationHeader2."No.");
-        RegistrationLineExistance.HandleLinesExist(SeminarRegistrationLine2.IsEmpty());
+        _Factory.GetIRegistrationLineExistance().HandleLinesExist(SeminarRegistrationLine2.IsEmpty());
     end;
     // ASD8.03<
 }

@@ -5,9 +5,16 @@ codeunit 123456768 "Sem. Posting (8) CSS ASD"
 
     #region Test Methods
 
+
     [Test]
     procedure PostClosedSeminarRegistration()
     var
+        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
+        Factory: Codeunit Factory;
+        SpyRegHeaderValidator: Codeunit SpyRegHeaderValidator;
+        SpyRegLineValidator: Codeunit SpyRegLineValidator;
+        SpyRegLineExistance: Codeunit SpyRegLineExistance;
+        SeminarPostASD: Codeunit "Seminar-Post ASD";
         PostingNo: Code[20];
         SeminarRegistrationNo: Code[20];
     begin
@@ -21,9 +28,15 @@ codeunit 123456768 "Sem. Posting (8) CSS ASD"
         // [GIVEN] Closed seminar registration with one participant line
         SeminarRegistrationNo := CreateCompleteSeminarRegistrationWithOneLine(SeminarNo, InstructorResourceNo, RoomResourceNo, CustomerNo, ParticipantNo);
         PostingNo := SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo, "Seminar Document Status ASD"::Closed);
+        SeminarRegistrationHeader.Get(SeminarRegistrationNo);
+
 
         // [WHEN] Post seminar registration
-        PostSeminarRegistration(SeminarRegistrationNo);
+        Factory.SetIRegistrationHeaderValidator(SpyRegHeaderValidator);
+        Factory.SetIRegistrationLineValidator(SpyRegLineValidator);
+        Factory.SetIRegistrationLineExistance(SpyRegLineExistance);
+        SeminarPostASD.SetFactory(Factory);
+        SeminarPostASD.Run(SeminarRegistrationHeader);
 
         // [THEN] Seminar registration is removed
         VerifySeminarRegistrationIsRemoved(SeminarRegistrationNo);
@@ -39,6 +52,12 @@ codeunit 123456768 "Sem. Posting (8) CSS ASD"
         VerifyInstructorRelatedResourceLedgerEntryExists(PostingNo, SeminarNo, InstructorResourceNo);
         // [THEN] Room related resource ledger entry exists
         VerifyRoomRelatedResourceLedgerEntryExist(PostingNo, SeminarNo, RoomResourceNo);
+
+        //Then verify components has been reached
+        Assert.IsTrue(SpyRegHeaderValidator.GetVisited(), 'RegheaderValidator not called');
+        Assert.IsTrue(SpyRegLineExistance.GetVisited(), 'RegLineExistance not called');
+        Assert.IsTrue(SpyRegLineValidator.GetVisited(), 'RegLineValidator not called');
+
     end;
 
     #region CheckMandatoryHeaderFields
@@ -357,36 +376,9 @@ codeunit 123456768 "Sem. Posting (8) CSS ASD"
 
         exit(SeminarRegistrationHeader."No.");
     end;
-
-    local procedure CreateSeminarRegistrationLine(FieldNo: Integer) SeminarRegistrationLine: Record "Seminar Registration Line ASD"
-    begin
-        if FieldNo <> SeminarRegistrationLine.FieldNo("Bill-to Customer No.") then
-            SeminarRegistrationLine."Bill-to Customer No." := 'TEST';
-        if FieldNo <> SeminarRegistrationLine.FieldNo("Participant Contact No.") then
-            SeminarRegistrationLine."Participant Contact No." := 'TEST';
-    end;
     #endregion GIVEN helper methods
 
     #region WHEN helper methods
-    local procedure PressPostOnSeminarRegistrationList(SeminarRegistrationNo: Code[20])
-    var
-        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
-        SeminarRegistrationList: TestPage "Seminar Registration List ASD";
-    begin
-        SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarRegistrationList.OpenView();
-        SeminarRegistrationList.GoToRecord(SeminarRegistrationHeader);
-        SeminarRegistrationList.Post.Invoke();
-    end;
-
-    local procedure PostSeminarRegistration(SeminarRegistrationNo: Code[20])
-    var
-        SeminarRegistrationHeader: Record "Sem. Registration Header ASD";
-        SeminarPostASD: Codeunit "Seminar-Post ASD";
-    begin
-        SeminarRegistrationHeader.Get(SeminarRegistrationNo);
-        SeminarPostASD.Run(SeminarRegistrationHeader);
-    end;
 
     local procedure SetStatusAndPostingNoOnSeminarRegistration(SeminarRegistrationNo: Code[20]; NewStatus: Enum "Seminar Document Status ASD"): Code[20]
     var
