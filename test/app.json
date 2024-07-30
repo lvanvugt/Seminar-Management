@@ -46,5 +46,5 @@
     "includeSourceInSymbolFile": true
   },
   "runtime": "12.0",
-  "preprocessorSymbols": ["include_sunny_path"]
+  "preprocessorSymbols": ["include_sunny_path", "solidComponent"]
 }

@@ -1,3 +1,4 @@
+#if solid
 codeunit 123456709 RegistrationHeaderValidator implements IRegistrationHeaderValidator
 {
     procedure CheckMandatoryHeaderFields(IRegistrationHeader_ASD: interface IRegistrationHeader_ASD)
@@ -18,3 +19,4 @@ codeunit 123456709 RegistrationHeaderValidator implements IRegistrationHeaderVal
             Error('Room Resource No. must have a value.');
     end;
 }
+#endif

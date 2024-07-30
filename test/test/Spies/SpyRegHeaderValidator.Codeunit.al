@@ -1,3 +1,4 @@
+#if solid
 codeunit 123456743 "SpyRegHeaderValidator" implements IRegistrationHeaderValidator
 {
     var
@@ -13,3 +14,4 @@ codeunit 123456743 "SpyRegHeaderValidator" implements IRegistrationHeaderValidat
         exit(_visited);
     end;
 }
+#endif

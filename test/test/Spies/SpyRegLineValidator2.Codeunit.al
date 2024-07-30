@@ -1,4 +1,4 @@
-#if solid
+#if solidComponent
 codeunit 123456744 "SpyRegLineValidator" implements IRegistrationLineValidator
 {
     var
@@ -9,7 +9,7 @@ codeunit 123456744 "SpyRegLineValidator" implements IRegistrationLineValidator
         exit(_visited);
     end;
 
-    procedure VerifyRegLineForPosting(IRegistrationLine_ASD: Interface IRegistrationLine_ASD)
+    procedure VerifyRegLineForPosting(var SeminarRegistrationLine: Record "Seminar Registration Line ASD")
     begin
         _visited := true;
     end;

@@ -1,3 +1,4 @@
+#if solid
 codeunit 123456712 RegistrationLineValidator implements IRegistrationLineValidator
 {
     procedure VerifyRegLineForPosting(IRegistrationLine_ASD: interface IRegistrationLine_ASD)
@@ -8,3 +9,4 @@ codeunit 123456712 RegistrationLineValidator implements IRegistrationLineValidat
             Error('Participant Contact No. must have a value.');
     end;
 }
+#endif

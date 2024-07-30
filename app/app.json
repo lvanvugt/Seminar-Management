@@ -35,6 +35,6 @@
   },
   "runtime": "12.0",
   "preprocessorSymbols": [
-    "solid"
+    "solidComponent"
   ]
 }
