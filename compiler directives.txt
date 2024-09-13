@@ -10,3 +10,4 @@ app
 test
 	include_sunny_path
 	solid_component
+	solid

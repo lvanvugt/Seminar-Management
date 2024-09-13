@@ -1,3 +1,4 @@
+#if solid or solid_component
 codeunit 123456745 Factory implements IFactory
 {
     var
@@ -35,3 +36,4 @@ codeunit 123456745 Factory implements IFactory
         _IRegistrationLineExistance := RegistrationLineExistance;
     end;
 }
+#endif
