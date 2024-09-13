@@ -1,4 +1,4 @@
-#if solidComponent
+#if solid_component
 codeunit 123456720 "Seminar-Post ASD"
 {
     // ASD8.03 - 2018-08-15 D.E. Veloper - Chapter 8: Lab 3 - Dimensions functionality

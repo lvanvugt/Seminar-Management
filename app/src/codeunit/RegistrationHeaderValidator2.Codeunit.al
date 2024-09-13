@@ -1,4 +1,4 @@
-#if solidComponent
+#if solid_component
 codeunit 123456709 RegistrationHeaderValidator implements IRegistrationHeaderValidator
 {
 

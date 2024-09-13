@@ -4,7 +4,9 @@ app
 	unstructured_spaghetti
 	structured_spaghetti
 	componentized_structured_spaghetti
+	solid_component
 	solid
 
 test
 	include_sunny_path
+	solid_component

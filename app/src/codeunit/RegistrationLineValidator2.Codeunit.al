@@ -1,4 +1,4 @@
-#if solidComponent
+#if solid_component
 codeunit 123456712 RegistrationLineValidator implements IRegistrationLineValidator
 {
     procedure VerifyRegLineForPosting(var SeminarRegistrationLine: Record "Seminar Registration Line ASD")
