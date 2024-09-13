@@ -48,6 +48,6 @@
   "runtime": "13.0",
   "preprocessorSymbols": [
     "include_sunny_path",
-    "solidComponent"
+    "solid_component"
   ]
 }
